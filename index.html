@@ -201,9 +201,17 @@ const POSTS = [
     ] },
 
   { day:5, weekday:"Wed", pillar:"reflection", title:"Raven's Testimonial",
-    platform:"Instagram + Facebook", format:"Testimonial (video or quote)",
-    caption:"Raven's testimonial. — Testimonial content / video and caption to be provided. —",
-    assets:[{todo:true, cap:"Raven testimonial — video / photo to provide"}] },
+    platform:"Instagram + Facebook", format:"Video (Reel)",
+    todos:[
+      "Edit Raven's testimonial video — start at the 0:38 mark",
+      "Add the Tiger Soul logo to the video"
+    ],
+    caption:"Caption to be provided.",
+    links:[
+      {label:"Google Drive — Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
+    ],
+    notes:"Raven's testimonial video.\n\nStart the clip at the 0:38 mark — don't use anything before 0:38.\n\nShe can add our Tiger Soul logo to the video (logo assets are below).",
+  },
 
   { day:6, weekday:"Thu", pillar:"teaching", title:"Blaine Speaking (Video)",
     platform:"Instagram + Facebook", format:"Video",
@@ -287,7 +295,7 @@ function openModal(p){
         `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener">${l.label} <span class="arw">&#8599;</span></a>`
       ).join('')}</div>` : '') +
     (p.notes ? `<div class="sec-label">Notes</div><div class="notes" id="noteText"></div>` : '') +
-    `<div class="sec-label">Assets</div>` +
+    ((p.assets && p.assets.length) ? `<div class="sec-label">Assets</div>` +
     `<div class="assets">${p.assets.map(a => a.todo
         ? (a.href
             ? `<a class="asset asset--todo" href="${a.href}" target="_blank" rel="noopener" title="Open the background photo"><div class="ph">To design</div><div class="cap">${a.cap}</div></a>`
@@ -295,7 +303,7 @@ function openModal(p){
         : `<div class="asset"><div class="asset__media"><img src="${a.src}" alt="" loading="lazy">` +
             `<a class="dlbtn" href="${a.src}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
             `<div class="cap">${a.cap}</div></div>`
-      ).join('')}</div>` +
+      ).join('')}</div>` : '') +
     logoHTML;
   document.getElementById('capText').innerHTML = linkify(p.caption);
   if (p.notes) document.getElementById('noteText').textContent = p.notes;
