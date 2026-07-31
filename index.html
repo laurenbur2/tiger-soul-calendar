@@ -115,7 +115,7 @@
   <span class="item"><span class="dot dot--reflection"></span>Mon · Reflection</span>
   <span class="item"><span class="dot dot--teaching"></span>Wed · Teaching</span>
   <span class="item"><span class="dot dot--invitation"></span>Thu · Invitation</span>
-  <span class="item count">13 posts scheduled</span>
+  <span class="item count" id="postCount">0 posts scheduled</span>
 </div>
 
 <section class="cal-sec">
@@ -160,83 +160,7 @@
    assets     : { src:"/path", cap:"note" }  — omit src + set todo:true for a graphic to be designed
    ============================================================ */
 const POSTS = [
-  { day:3, weekday:"Mon", pillar:"reflection", title:"From Darkness into Light",
-    platform:"Instagram + Facebook", format:"Single image (portrait)",
-    caption:"Every person who finds their way to us is carrying something. A grief that never got its moment. A version of themselves they've been performing for years. A quiet knowing that there's more life available than the one they're living.\n\nTiger Soul was born from that same place — not from a business plan, but from one man's walk through his own darkness and back.\n\nThis is a path for the whole person: body, mind, and spirit. If something in you is ready, you're already closer than you think.\n\n🐅 From darkness into light.",
-    hashtags:["TigerSoul","PlantMedicine","Healing","FromDarknessIntoLight","SacredMedicine","InnerWork"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-1.webp",cap:"Jungle ceremony blessing"},{src:"https://www.tigersoulretreats.com/assets/images/logo/tiger-mark.png",cap:"Gold mark (corner)"}] },
-
-  { day:5, weekday:"Wed", pillar:"teaching", title:"Meet Bufo",
-    platform:"Instagram + Facebook", format:"Carousel (4) — image + 3 text cards",
-    caption:"Bufo — 5-MeO-DMT — is often called the medicine of the gods.\n\nIt's short. Often no more than twenty minutes. But people describe it as the most profound experience of their lives: a complete dissolving of the self, and a return to something vast, quiet, and loving underneath it all.\n\nIt isn't recreational. It asks for preparation, respect, and a facilitator who knows how to hold the space. Held that way, it can open the door to real release — grief, fear, the armor we've worn so long we forgot it was there.\n\nMore about Bufo at the link in our bio.",
-    hashtags:["Bufo","5MeODMT","ToadMedicine","PlantMedicine","SpiritualAwakening","EgoDeath","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/medicines/bufo.webp",cap:"Slide 1 — Bufo"},{todo:true,cap:"Slide 2 — “What it is”"},{todo:true,cap:"Slide 3 — “How long”"},{todo:true,cap:"Slide 4 — “How we hold it”"}] },
-
-  { day:6, weekday:"Thu", pillar:"invitation", title:"Ways to Journey With Us",
-    platform:"Instagram + Facebook", format:"Carousel (4) — one per offering",
-    caption:"There's no single doorway. Every soul arrives at a different threshold.\n\n— Retreats: immersive time away, held in ceremony\n— The Liberation Program: nine weeks, mostly online, built around one week together in person\n— Bufo Practitioner Training: for those called to hold the medicine for others\n— Sacred Offerings: Bufo, Kambo, Psilocybin, and Rapéh\n\nNot sure which is yours? That's what the conversation is for. Reach out and we'll help you find the door that's calling.\n\nLink in bio to begin.",
-    hashtags:["PlantMedicineRetreat","Bufo","Kambo","Psilocybin","Rapeh","TigerSoul","Mexico"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-3.webp",cap:"Cover slide"},{src:"https://www.tigersoulretreats.com/assets/images/medicines/bufo.webp",cap:"Offering visual"},{src:"https://www.tigersoulretreats.com/assets/images/medicines/kambo.webp",cap:"Offering visual"},{src:"https://www.tigersoulretreats.com/assets/images/medicines/psilocybin.webp",cap:"Offering visual"}] },
-
-  { day:10, weekday:"Mon", pillar:"reflection", title:"You Weren't Meant to Carry It Alone",
-    platform:"Instagram + Facebook", format:"Single image + quote overlay",
-    caption:"Somewhere along the way, a lot of us decided healing was a solo project. That if we just read enough, worked hard enough, stayed strong enough, we'd figure it out on our own.\n\nBut the oldest forms of healing were never solitary. They happened in circle. Witnessed. Held.\n\nThere is nothing weak about being held. It might be the bravest thing you do.\n\nWhen you're ready, there's a circle here for you.",
-    hashtags:["Healing","SacredCircle","Community","PlantMedicine","TigerSoul","YouAreNotAlone"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-4.webp",cap:"Circle / group ceremony"},{todo:true,cap:"Quote overlay in brand type"}] },
-
-  { day:12, weekday:"Wed", pillar:"teaching", title:"What a Ceremony Actually Looks Like",
-    platform:"Instagram + Facebook", format:"Carousel (3) or Reel",
-    caption:"People often imagine something wild. The truth is far more tender.\n\nA ceremony begins long before the medicine — the arrival, the settling of nerves, the setting of intention, a facilitator who walks you through every step so nothing is a surprise.\n\nThen: safety. Soft space. Someone beside you the whole time. Music, prayer, breath. And afterward — the part most people skip — integration. Time to make sense of what moved, so it becomes real change and not just a big night.\n\nThe medicine opens the door. The container is what makes it safe to walk through.\n\nQuestions? Our DMs are open.",
-    hashtags:["Ceremony","Integration","PlantMedicine","SafetyFirst","Bufo","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-5.webp",cap:"Ceremony space"},{src:"https://www.tigersoulretreats.com/assets/images/medicines/rapeh.webp",cap:"Ritual detail"}] },
-
-  { day:13, weekday:"Thu", pillar:"invitation", title:"The Liberation Program",
-    platform:"Instagram + Facebook", format:"Carousel (3) — timeline",
-    caption:"One night can crack you open. What you do with the next nine weeks is what changes your life.\n\nThe Liberation Program is a nine-week guided journey:\n— Four weeks of preparation, so you arrive ready\n— One week together in person, held in ceremony\n— Four weeks of integration, so the shift takes root\n\nMostly online, so it meets you inside your real life. Built for people who don't just want an experience — they want to become someone new on the other side of it.\n\nApplications are open. Link in bio.",
-    hashtags:["LiberationProgram","Transformation","PlantMedicine","Integration","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-6.webp",cap:"Cover image"},{todo:true,cap:"9-week timeline graphic (4 · 1 · 4)"}] },
-
-  { day:17, weekday:"Mon", pillar:"reflection", title:"Meet Blaine",
-    platform:"Instagram + Facebook", format:"Single image (portrait)",
-    caption:"Blaine didn't set out to build this.\n\nHe walked his own road through the dark first — the kind that strips you down to nothing and asks whether you'll get back up. The medicines met him there. What began as personal survival slowly became a calling: to walk beside other people as they find their way back to themselves.\n\nEvery retreat, every ceremony, every training is shaped by that. Lived experience. Deep respect for the medicines. An unshakeable commitment to your safety and your sovereignty.\n\nYou won't be guided by someone who read about the path. You'll be guided by someone who walked it.\n\nMeet Blaine — link in bio.",
-    hashtags:["Founder","Facilitator","Bufo","PlantMedicine","TigerSoul","Mexico"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/about-blaine.webp",cap:"Blaine, founder & facilitator"}] },
-
-  { day:19, weekday:"Wed", pillar:"teaching", title:"Kambo: The Great Cleanse",
-    platform:"Instagram + Facebook", format:"Single image + caption",
-    caption:"Kambo comes from the Amazon — a secretion from the giant monkey frog, used by Indigenous peoples for generations as a deep cleanse for body and spirit.\n\nIt's intense and it's quick. The body moves through a strong purge, and on the other side people describe feeling lighter, clearer, almost reset — a lifting of the heaviness they'd stopped noticing they carried.\n\nLike all the medicines we hold, Kambo is worked with care, screening, and respect for the tradition it comes from.\n\nCurious? Learn more at the link in bio.",
-    hashtags:["Kambo","AmazonianMedicine","Detox","PlantMedicine","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/medicines/kambo.webp",cap:"Kambo"}] },
-
-  { day:20, weekday:"Thu", pillar:"invitation", title:"In Their Words",
-    platform:"Instagram + Facebook", format:"Quote graphic",
-    caption:"\"Right after I used the medicine I went through an ego death and emerged into pure bliss, ecstasy, and pure love. The freedom and release I gained from that journey is still with me today.\" — Janine\n\nWe could tell you what's possible. It means more coming from the people who've walked through it.\n\nMore stories at the link in bio. Yours could be next.",
-    hashtags:["Testimonial","Bufo","Healing","EgoDeath","TigerSoul","Transformation"],
-    assets:[{todo:true,cap:"Quote card — forest bg, gold type"},{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-2.webp",cap:"Optional background"}] },
-
-  { day:24, weekday:"Mon", pillar:"reflection", title:"Held With Care",
-    platform:"Instagram + Facebook", format:"Single image + caption",
-    caption:"The medicine gets the headlines. The container is what actually keeps you safe.\n\nBefore anyone sits with us, there's a health screening and an honest conversation. During ceremony you're never alone — someone trained is beside you the whole way. And your yes is yours. Your no is yours. Nothing happens that you haven't chosen.\n\nSovereignty isn't a word we use to sound spiritual. It's how we work. Your safety and your freedom come first, always.\n\nThat's the promise underneath everything we do.",
-    hashtags:["SafetyFirst","Sovereignty","PlantMedicine","Trust","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-7.webp",cap:"Calm / held space"}] },
-
-  { day:26, weekday:"Wed", pillar:"teaching", title:"Rapéh & the Art of Presence",
-    platform:"Instagram + Facebook", format:"Single image / short Reel",
-    caption:"Rapéh (pronounced ha-PEH) is a sacred Amazonian snuff — a blend of ground plants and tobacco, blown gently into each nostril.\n\nIt grounds you. Clears the noise. Drops you out of the spinning mind and straight into the body, into the present moment. In ceremony it's used as a tool for prayer, focus, and setting intention — a way of arriving fully before deeper work begins.\n\nSmall in size. Surprisingly powerful in the way it brings you home to now.\n\nMore on our sacred offerings at the link in bio.",
-    hashtags:["Rapeh","Rape","AmazonianMedicine","Presence","PlantMedicine","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/medicines/rapeh.webp",cap:"Rapéh"}] },
-
-  { day:27, weekday:"Thu", pillar:"invitation", title:"Bufo Practitioner Training",
-    platform:"Instagram + Facebook", format:"Single image + caption",
-    caption:"Some people come for their own healing. Others feel a second call after — to hold the medicine for someone else.\n\nOur Bufo Practitioner Training is for the next generation of facilitators. It's rigorous and heart-centered, because this work asks for both. You'll learn the medicine, the safety, the ethics, and the art of holding space — from someone who does it.\n\nThis isn't a weekend certificate. It's a path of sacred service.\n\nIf it's calling you, you already know. Applications at the link in bio.",
-    hashtags:["BufoTraining","Facilitator","PractitionerTraining","SacredService","PlantMedicine","TigerSoul"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-1.webp",cap:"Blaine holding ceremony"}] },
-
-  { day:31, weekday:"Mon", pillar:"reflection", title:"Answer the Call",
-    platform:"Instagram + Facebook", format:"Single image (portrait)",
-    caption:"If you've read this far all month, something in you is paying attention.\n\nYou don't have to have it all figured out. You don't have to be ready. You just have to be willing to take the first small step — a message, a question, a conversation.\n\nJoin our circle for retreat announcements, offerings, and reflections from the path. Your soul already knows the way.\n\nLink in bio. Answer the call. 🐅",
-    hashtags:["TigerSoul","AnswerTheCall","PlantMedicine","Healing","FromDarknessIntoLight"],
-    assets:[{src:"https://www.tigersoulretreats.com/assets/images/hero/hero-7.webp",cap:"Sunrise / light image"},{src:"https://www.tigersoulretreats.com/assets/images/logo/tiger-mark.png",cap:"Gold mark"}] },
+  // No posts yet — build them here once the marketing strategy is set.
 ];
 
 /* ---------- Build the August grid ---------- */
@@ -268,6 +192,10 @@ for (let d = 1; d <= DAYS; d++){
   }
   grid.appendChild(cell);
 }
+
+// Keep the header count in sync with the POSTS list
+const n = POSTS.length;
+document.getElementById('postCount').textContent = `${n} post${n===1?'':'s'} scheduled`;
 
 /* ---------- Modal ---------- */
 const overlay = document.getElementById('overlay');
