@@ -112,9 +112,7 @@
 </header>
 
 <div class="legend wrap">
-  <span class="item"><span class="dot dot--reflection"></span>Mon · Reflection</span>
-  <span class="item"><span class="dot dot--teaching"></span>Wed · Teaching</span>
-  <span class="item"><span class="dot dot--invitation"></span>Thu · Invitation</span>
+  <span class="item"><span class="dot dot--invitation"></span>Three posts a week · Mon · Wed · Thu</span>
   <span class="item count" id="postCount">0 posts scheduled</span>
 </div>
 
@@ -160,7 +158,23 @@
    assets     : { src:"/path", cap:"note" }  — omit src + set todo:true for a graphic to be designed
    ============================================================ */
 const POSTS = [
-  // No posts yet — build them here once the marketing strategy is set.
+  { day:3, weekday:"Mon", pillar:"invitation", title:"December Retreat — Announcement",
+    platform:"Instagram + Facebook", format:"TBD",
+    caption:"Announcement post for our upcoming December retreat. — Caption, dates, and details to be provided. —",
+    hashtags:[],
+    assets:[{todo:true, cap:"December retreat announcement — asset to provide"}] },
+
+  { day:5, weekday:"Wed", pillar:"reflection", title:"Raven's Testimonial",
+    platform:"Instagram + Facebook", format:"Testimonial (video or quote)",
+    caption:"Raven's testimonial. — Testimonial content / video and caption to be provided. —",
+    hashtags:[],
+    assets:[{todo:true, cap:"Raven testimonial — video / photo to provide"}] },
+
+  { day:6, weekday:"Thu", pillar:"teaching", title:"Blaine Speaking (Video)",
+    platform:"Instagram + Facebook", format:"Video",
+    caption:"Video of Blaine speaking. — Video and caption to be provided. —",
+    hashtags:[],
+    assets:[{todo:true, cap:"Video of Blaine speaking — to provide"}] },
 ];
 
 /* ---------- Build the August grid ---------- */
