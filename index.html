@@ -45,6 +45,11 @@
 
   /* ---------- Calendar ---------- */
   .cal-sec{padding:2.4rem 0 3.2rem}
+  .month{margin-bottom:3rem}
+  .month:last-child{margin-bottom:0}
+  .month__head{display:flex;align-items:baseline;gap:.6rem;margin:0 0 1rem;padding-bottom:.55rem;border-bottom:1px solid var(--line-gold)}
+  .month__head h2{font-size:clamp(1.5rem,4vw,2.15rem);color:var(--forest-900)}
+  .month__head .yr{color:var(--gold-deep);font-weight:300}
   .dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px}
   .dow{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);text-align:center;padding:.3rem 0}
   .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
@@ -129,8 +134,8 @@
 
 <header class="masthead">
   <p class="eyebrow">Tiger Soul · Social Content Calendar</p>
-  <h1>August <span class="yr">2026</span></h1>
-  <p>Three posts a week — Monday, Wednesday, Thursday. Tap any highlighted day to see the caption, hashtags, and assets for that post.</p>
+  <h1>Aug 2026 <span class="yr">– Mar 2027</span></h1>
+  <p>Three posts a week — Monday, Wednesday, Thursday. Tap any highlighted day to see the full brief for that post.</p>
 </header>
 
 <div class="legend wrap">
@@ -139,13 +144,7 @@
 </div>
 
 <section class="cal-sec">
-  <div class="wrap">
-    <div class="dow-row">
-      <div class="dow">Sun</div><div class="dow">Mon</div><div class="dow">Tue</div>
-      <div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div>
-    </div>
-    <div class="grid" id="grid"></div>
-  </div>
+  <div class="wrap" id="calendar"></div>
 </section>
 
 <!-- Modal -->
@@ -169,8 +168,7 @@
 <script>
 /* ============================================================
    EDIT HERE — one entry per post.
-   day        : date in August (number)
-   weekday    : Mon / Wed / Thu
+   date       : "YYYY-MM-DD" (the weekday, month and year are worked out automatically)
    pillar     : reflection | teaching | invitation
    title      : short label shown on the calendar
    platform   : where it posts
@@ -183,7 +181,7 @@
                 (a todo asset may add href:"..." to make the "To design" card a clickable link)
    ============================================================ */
 const POSTS = [
-  { day:3, weekday:"Mon", pillar:"invitation", title:"Reclamation Retreat — Announcement",
+  { date:"2026-08-03", pillar:"invitation", title:"Reclamation Retreat — Announcement",
     platform:"Instagram + Facebook", format:"Carousel — 2 slides",
     todos:[
       "Add the Reclamation Retreat link to the Instagram bio",
@@ -200,7 +198,7 @@ const POSTS = [
       {src:"assets/reclamation-pool.avif", cap:"Slide 2 — Retreat location photo"}
     ] },
 
-  { day:5, weekday:"Wed", pillar:"reflection", title:"Raven's Testimonial",
+  { date:"2026-08-05", pillar:"reflection", title:"Raven's Testimonial",
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
       "Cut to the 2:04–2:47 clip — Raven on Blaine as an instructor",
@@ -214,41 +212,93 @@ const POSTS = [
     notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00–1:38 — the training\n•  2:04–2:47 — Blaine as an instructor   ← use this clip for this post\n•  4:10–end — how the space is held\n\nWhen cutting, slightly zoom in on the face (or slowly pull out) so it feels dynamic, not choppy.\n\nCaptions: adding captions to the video is much easier with the Feed app.",
   },
 
-  { day:6, weekday:"Thu", pillar:"teaching", title:"Blaine Speaking (Video)",
+  { date:"2026-08-06", pillar:"teaching", title:"Blaine Speaking (Video)",
     platform:"Instagram + Facebook", format:"Video",
     caption:"Video of Blaine speaking. — Video and caption to be provided. —",
     assets:[{todo:true, cap:"Video of Blaine speaking — to provide"}] },
+
+  { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial — The Training",
+    platform:"Instagram + Facebook", format:"Video (Reel)",
+    todos:[
+      "Cut to the 1:00–1:38 clip — the training",
+      "Add captions to the video — recommend the Feed app",
+      "Add the Tiger Soul logo"
+    ],
+    caption:"Caption should include:\n•  A shout-out to Raven — she's a very powerful healer.",
+    links:[
+      {label:"Google Drive — Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
+    ],
+    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00–1:38 — the training   ← use this clip for this post\n•  2:04–2:47 — Blaine as an instructor\n•  4:10–end — how the space is held\n\nWhen cutting, slightly zoom in on the face (or slowly pull out) so it feels dynamic, not choppy.\n\nCaptions: adding captions to the video is much easier with the Feed app.",
+  },
+
+  { date:"2026-11-18", pillar:"reflection", title:"Raven's Testimonial — How the Space Is Held",
+    platform:"Instagram + Facebook", format:"Video (Reel)",
+    todos:[
+      "Cut to the 4:10–end clip — how the space is held",
+      "Add captions to the video — recommend the Feed app",
+      "Add the Tiger Soul logo"
+    ],
+    caption:"Caption should include:\n•  A shout-out to Raven — she's a very powerful healer.",
+    links:[
+      {label:"Google Drive — Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
+    ],
+    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00–1:38 — the training\n•  2:04–2:47 — Blaine as an instructor\n•  4:10–end — how the space is held   ← use this clip for this post\n\nWhen cutting, slightly zoom in on the face (or slowly pull out) so it feels dynamic, not choppy.\n\nCaptions: adding captions to the video is much easier with the Feed app.",
+  },
 ];
 
-/* ---------- Build the August grid ---------- */
-// August 2026: Aug 1 is a Saturday. 31 days. Grid starts Sunday.
-const FIRST_DOW = 6; // 0=Sun ... 6=Sat  → Aug 1 = Saturday
-const DAYS = 31;
-const byDay = Object.fromEntries(POSTS.map(p => [p.day, p]));
-const grid = document.getElementById('grid');
+/* ---------- Build the calendar (multiple months) ---------- */
+const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const WD_SHORT = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const WD_LONG  = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const pad2 = x => String(x).padStart(2,'0');
 
-for (let i = 0; i < FIRST_DOW; i++){
-  const e = document.createElement('div'); e.className = 'cell cell--empty'; grid.appendChild(e);
-}
-for (let d = 1; d <= DAYS; d++){
-  const post = byDay[d];
-  const cell = document.createElement('div');
-  if (post){
-    cell.className = 'cell cell--post';
-    cell.innerHTML =
-      `<span class="num">${d}</span>` +
-      `<span class="pill ${post.pillar}">${post.weekday}</span>` +
-      `<span class="ttl">${post.title}</span>` +
-      `<span class="plat">${post.platform.replace('Instagram + Facebook','IG + FB')}</span>`;
-    cell.addEventListener('click', () => openModal(post));
-    cell.setAttribute('role','button'); cell.tabIndex = 0;
-    cell.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(post);} });
-  } else {
-    cell.className = 'cell';
-    cell.innerHTML = `<span class="num">${d}</span>`;
+// Months shown on the calendar: August 2026 → March 2027. Add/remove here to change the range.
+const MONTHS = [
+  {y:2026,m:8},{y:2026,m:9},{y:2026,m:10},{y:2026,m:11},{y:2026,m:12},
+  {y:2027,m:1},{y:2027,m:2},{y:2027,m:3}
+];
+
+const byDate = Object.fromEntries(POSTS.map(p => [p.date, p]));
+const calendar = document.getElementById('calendar');
+
+MONTHS.forEach(({y,m}) => {
+  const monthEl = document.createElement('section');
+  monthEl.className = 'month';
+  monthEl.innerHTML = `<div class="month__head"><h2>${MONTH_NAMES[m-1]} <span class="yr">${y}</span></h2></div>` +
+    `<div class="dow-row">${WD_SHORT.map(d => `<div class="dow">${d}</div>`).join('')}</div>`;
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  const firstDow = new Date(y, m-1, 1).getDay();
+  const daysInMonth = new Date(y, m, 0).getDate();
+
+  for (let i = 0; i < firstDow; i++){
+    const e = document.createElement('div'); e.className = 'cell cell--empty'; grid.appendChild(e);
   }
-  grid.appendChild(cell);
-}
+  for (let d = 1; d <= daysInMonth; d++){
+    const iso = `${y}-${pad2(m)}-${pad2(d)}`;
+    const post = byDate[iso];
+    const cell = document.createElement('div');
+    if (post){
+      const wd = WD_SHORT[new Date(y, m-1, d).getDay()];
+      cell.className = 'cell cell--post';
+      cell.innerHTML =
+        `<span class="num">${d}</span>` +
+        `<span class="pill ${post.pillar}">${wd}</span>` +
+        `<span class="ttl">${post.title}</span>` +
+        `<span class="plat">${post.platform.replace('Instagram + Facebook','IG + FB')}</span>`;
+      cell.addEventListener('click', () => openModal(post));
+      cell.setAttribute('role','button'); cell.tabIndex = 0;
+      cell.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(post);} });
+    } else {
+      cell.className = 'cell';
+      cell.innerHTML = `<span class="num">${d}</span>`;
+    }
+    grid.appendChild(cell);
+  }
+  monthEl.appendChild(grid);
+  calendar.appendChild(monthEl);
+});
 
 // Keep the header count in sync with the POSTS list
 const n = POSTS.length;
@@ -256,8 +306,6 @@ document.getElementById('postCount').textContent = `${n} post${n===1?'':'s'} sch
 
 /* ---------- Modal ---------- */
 const overlay = document.getElementById('overlay');
-const MONTH = "August";
-const WD_FULL = {Mon:"Monday", Wed:"Wednesday", Thu:"Thursday"};
 const PILLAR_LABEL = {reflection:"Reflection", teaching:"Teaching", invitation:"Invitation"};
 
 // Brand logos — shown on EVERY post for download. Click to download the full-res PNG.
@@ -273,7 +321,8 @@ const logoHTML =
   ).join('')}</div>`;
 
 function openModal(p){
-  document.getElementById('mDate').textContent = `${WD_FULL[p.weekday]}, ${MONTH} ${p.day}`;
+  const [Y,Mo,D] = p.date.split('-').map(Number);
+  document.getElementById('mDate').textContent = `${WD_LONG[new Date(Y,Mo-1,D).getDay()]}, ${MONTH_NAMES[Mo-1]} ${D}`;
   document.getElementById('mTitle').textContent = p.title;
   document.getElementById('mMeta').innerHTML =
     `<span class="tag">${PILLAR_LABEL[p.pillar]}</span>` +
