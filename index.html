@@ -83,6 +83,7 @@
   .tags{display:flex;flex-wrap:wrap;gap:.4rem}
   .htag{font-size:.78rem;color:var(--gold-deep);background:var(--cream-3);padding:.3em .7em;border-radius:8px}
   .sec-note{margin-left:.5rem;font-size:.6rem;letter-spacing:.1em;color:var(--ink-soft);text-transform:none}
+  .notes{white-space:pre-wrap;font-size:.96rem;color:var(--ink);background:var(--cream-2);border:1px solid var(--line-gold);border-left:3px solid var(--gold-deep);border-radius:10px;padding:.95rem 1.1rem;line-height:1.55}
   .logos{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
   .logo{display:block;border:1px solid var(--line-gold);border-radius:10px;overflow:hidden;background:var(--forest-900);text-decoration:none;transition:border-color .25s var(--ease),transform .25s var(--ease)}
   .logo:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -97,7 +98,10 @@
   .asset{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;display:block}
   a.asset{transition:border-color .25s var(--ease),transform .25s var(--ease)}
   a.asset:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .asset__media{position:relative}
   .asset img{width:100%;height:82px;object-fit:cover;display:block;background:var(--cream-3)}
+  .dlbtn{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1;text-decoration:none;color:var(--gold-light);background:rgba(15,28,20,.85);border:1px solid rgba(230,207,157,.55);transition:.2s var(--ease)}
+  .dlbtn:hover{background:var(--gold);color:var(--forest-950);border-color:var(--gold)}
   .asset .cap{font-size:.7rem;color:var(--ink-soft);padding:.45rem .55rem;line-height:1.35}
   .asset--todo{border-style:dashed;border-color:var(--gold-deep)}
   .asset--todo .ph{height:82px;display:flex;align-items:center;justify-content:center;color:var(--gold-deep);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;background:repeating-linear-gradient(45deg,var(--cream-2),var(--cream-2) 8px,var(--cream-3) 8px,var(--cream-3) 16px)}
@@ -168,6 +172,7 @@
    format     : e.g. "Single image", "Carousel (4)", "Reel"
    caption    : the full post copy (use \n for line breaks)
    links      : optional [{ label, url }] — website page, Google Drive folder, etc.
+   notes      : optional note to the social media team (design brief / ideas)
    assets     : { src:"/path", cap:"note" }  — omit src + set todo:true for a graphic to be designed
    ============================================================ */
 const POSTS = [
@@ -178,9 +183,10 @@ const POSTS = [
       {label:"Reclamation Retreat — website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"},
       {label:"Google Drive — flyer background photo (download)", url:"https://drive.google.com/file/d/13XrQoEKtAkgh3i8xdy2mccY2kaSMngBy/view?usp=sharing"}
     ],
+    notes:"Purpose: create a flyer for the Reclamation Retreat, happening December 4–7, 2026.\n\nThe flyer should include: the location, the purpose, and the dates.\n\nThis is our FIRST announcement of this retreat — we'll do more posts for it in the future, but this is the first one.\n\nSlide 2 = a photo of the location where we'll host it.",
     assets:[
       {todo:true, cap:"Slide 1 — Event announcement poster (to design). Background = the Google Drive photo linked above."},
-      {src:"assets/reclamation-pool.avif", cap:"Slide 2 — Retreat location photo (click to open / download)"}
+      {src:"assets/reclamation-pool.avif", cap:"Slide 2 — Retreat location photo"}
     ] },
 
   { day:5, weekday:"Wed", pillar:"reflection", title:"Raven's Testimonial",
@@ -263,13 +269,17 @@ function openModal(p){
       `<div class="links">${links.map(l =>
         `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener">${l.label} <span class="arw">&#8599;</span></a>`
       ).join('')}</div>` : '') +
+    (p.notes ? `<div class="sec-label">Notes</div><div class="notes" id="noteText"></div>` : '') +
     `<div class="sec-label">Assets</div>` +
     `<div class="assets">${p.assets.map(a => a.todo
         ? `<div class="asset asset--todo"><div class="ph">To design</div><div class="cap">${a.cap}</div></div>`
-        : `<a class="asset" href="${a.src}" target="_blank" rel="noopener" title="Open full size to download"><img src="${a.src}" alt="" loading="lazy"><div class="cap">${a.cap}</div></a>`
+        : `<div class="asset"><div class="asset__media"><img src="${a.src}" alt="" loading="lazy">` +
+            `<a class="dlbtn" href="${a.src}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
+            `<div class="cap">${a.cap}</div></div>`
       ).join('')}</div>` +
     logoHTML;
   document.getElementById('capText').textContent = p.caption;
+  if (p.notes) document.getElementById('noteText').textContent = p.notes;
 
   // wire copy button
   body.querySelector('[data-copy="caption"]').onclick = e => copyText(p.caption, e.target);
