@@ -80,6 +80,8 @@
   .btn-copy:hover{background:var(--gold-deep);color:var(--cream);border-color:var(--gold-deep)}
   .btn-copy.done{background:var(--forest-700);color:var(--cream);border-color:var(--forest-700)}
   .caption{white-space:pre-wrap;font-size:1rem;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+  .caption a{color:var(--gold-deep);text-decoration:underline;word-break:break-all}
+  .caption a:hover{color:var(--forest-700)}
   .tags{display:flex;flex-wrap:wrap;gap:.4rem}
   .htag{font-size:.78rem;color:var(--gold-deep);background:var(--cream-3);padding:.3em .7em;border-radius:8px}
   .sec-note{margin-left:.5rem;font-size:.6rem;letter-spacing:.1em;color:var(--ink-soft);text-transform:none}
@@ -187,7 +189,7 @@ const POSTS = [
       "Add the Reclamation Retreat link to the Instagram bio",
       "Create the Reclamation Retreat flyer / carousel"
     ],
-    caption:"Announcement for The Reclamation Retreat — December 4–7, 2026. — Final caption to be provided. —",
+    caption:"She writes her own caption — it should include:\n•  Date:  December 4–7, 2026\n•  Location:  Tulum, Mexico\n•  Activities  (pull from the itinerary on the website)\n•  Healing medicine:  Bufo (5-MeO-DMT)\n\nReclamation Retreat page — click to open:\nhttps://www.tigersoulretreats.com/reclamation-retreat/\n\nTip: on the website you can see the full schedule — click the + sign on each itinerary item for the drop-down menu.",
     links:[
       {label:"Reclamation Retreat — website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"},
       {label:"Google Drive — flyer background photo (download)", url:"https://drive.google.com/file/d/13XrQoEKtAkgh3i8xdy2mccY2kaSMngBy/view?usp=sharing"}
@@ -278,7 +280,7 @@ function openModal(p){
     : '';
   body.innerHTML =
     todosHTML +
-    `<div class="sec-label">Caption <button class="btn-copy" data-copy="caption">Copy caption</button></div>` +
+    `<div class="sec-label">Caption</div>` +
     `<div class="caption" id="capText"></div>` +
     (links.length ? `<div class="sec-label">Links &amp; info</div>` +
       `<div class="links">${links.map(l =>
@@ -295,16 +297,15 @@ function openModal(p){
             `<div class="cap">${a.cap}</div></div>`
       ).join('')}</div>` +
     logoHTML;
-  document.getElementById('capText').textContent = p.caption;
+  document.getElementById('capText').innerHTML = linkify(p.caption);
   if (p.notes) document.getElementById('noteText').textContent = p.notes;
-
-  // wire copy button
-  body.querySelector('[data-copy="caption"]').onclick = e => copyText(p.caption, e.target);
 
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+// Escape, then turn any full URL into a clickable link (shows the whole link)
+function linkify(s){ return esc(s).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); }
 function closeModal(){ overlay.classList.remove('open'); document.body.style.overflow=''; }
 function copyText(txt, btn){
   navigator.clipboard.writeText(txt).then(()=>{
