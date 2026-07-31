@@ -84,17 +84,9 @@
   .htag{font-size:.78rem;color:var(--gold-deep);background:var(--cream-3);padding:.3em .7em;border-radius:8px}
   .sec-note{margin-left:.5rem;font-size:.6rem;letter-spacing:.1em;color:var(--ink-soft);text-transform:none}
   .notes{white-space:pre-wrap;font-size:.96rem;color:var(--ink);background:var(--cream-2);border:1px solid var(--line-gold);border-left:3px solid var(--gold-deep);border-radius:10px;padding:.95rem 1.1rem;line-height:1.55}
-  .todo{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-  .todo-item{display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.75rem .9rem;transition:.2s var(--ease)}
-  .todo-item:hover{border-color:var(--gold)}
-  .todo-item input{position:absolute;opacity:0;width:0;height:0}
-  .todo-item .box{flex-shrink:0;width:20px;height:20px;margin-top:1px;border:1.5px solid var(--gold-deep);border-radius:5px;display:flex;align-items:center;justify-content:center;transition:.2s var(--ease)}
-  .todo-item .box::after{content:"✓";font-size:.8rem;color:var(--forest-950);opacity:0;transform:scale(.6);transition:.2s var(--ease)}
-  .todo-item input:checked + .box{background:var(--gold);border-color:var(--gold)}
-  .todo-item input:checked + .box::after{opacity:1;transform:scale(1)}
-  .todo-item .txt{font-size:.98rem;color:var(--ink);line-height:1.4}
-  .todo-item.done .txt{color:var(--ink-soft);text-decoration:line-through}
-  .todo-item input:focus-visible + .box{box-shadow:0 0 0 3px rgba(198,167,105,.35)}
+  .todo{list-style:none;background:rgba(198,167,105,.12);border:1px solid var(--line-gold);border-radius:10px;padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.55rem}
+  .todo li{position:relative;padding-left:1.4rem;color:var(--gold-deep);font-size:.98rem;line-height:1.4}
+  .todo li::before{content:"→";position:absolute;left:0;top:0;color:var(--gold-deep)}
   .logos{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
   .logo{display:block;border:1px solid var(--line-gold);border-radius:10px;overflow:hidden;background:var(--forest-900);text-decoration:none;transition:border-color .25s var(--ease),transform .25s var(--ease)}
   .logo:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -181,7 +173,7 @@
    title      : short label shown on the calendar
    platform   : where it posts
    format     : e.g. "Single image", "Carousel (4)", "Reel"
-   todos      : optional ["task", ...] — checklist for the social team (checks save per browser)
+   todos      : optional ["task", ...] — short gold reminder list at the top of the post
    caption    : the full post copy (use \n for line breaks)
    links      : optional [{ label, url }] — website page, Google Drive folder, etc.
    notes      : optional note to the social media team (design brief / ideas)
@@ -282,9 +274,7 @@ function openModal(p){
   const todos = p.todos || [];
   const todosHTML = todos.length
     ? `<div class="sec-label">To-do</div>` +
-      `<ul class="todo">${todos.map((t,i) =>
-        `<li><label class="todo-item"><input type="checkbox" data-todo="${p.day}-${i}"><span class="box"></span><span class="txt">${esc(t)}</span></label></li>`
-      ).join('')}</ul>`
+      `<ul class="todo">${todos.map(t => `<li>${esc(t)}</li>`).join('')}</ul>`
     : '';
   body.innerHTML =
     todosHTML +
@@ -307,18 +297,6 @@ function openModal(p){
     logoHTML;
   document.getElementById('capText').textContent = p.caption;
   if (p.notes) document.getElementById('noteText').textContent = p.notes;
-
-  // To-do: restore checked state (saved in this browser) and persist changes
-  body.querySelectorAll('input[data-todo]').forEach(cb => {
-    const key = 'tsc-todo-' + cb.dataset.todo;
-    const item = cb.closest('.todo-item');
-    cb.checked = localStorage.getItem(key) === '1';
-    item.classList.toggle('done', cb.checked);
-    cb.addEventListener('change', () => {
-      localStorage.setItem(key, cb.checked ? '1' : '0');
-      item.classList.toggle('done', cb.checked);
-    });
-  });
 
   // wire copy button
   body.querySelector('[data-copy="caption"]').onclick = e => copyText(p.caption, e.target);
