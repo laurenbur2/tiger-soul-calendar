@@ -82,6 +82,13 @@
   .caption{white-space:pre-wrap;font-size:1rem;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
   .tags{display:flex;flex-wrap:wrap;gap:.4rem}
   .htag{font-size:.78rem;color:var(--gold-deep);background:var(--cream-3);padding:.3em .7em;border-radius:8px}
+  .sec-note{margin-left:.5rem;font-size:.6rem;letter-spacing:.1em;color:var(--ink-soft);text-transform:none}
+  .logos{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+  .logo{display:block;border:1px solid var(--line-gold);border-radius:10px;overflow:hidden;background:var(--forest-900);text-decoration:none;transition:border-color .25s var(--ease),transform .25s var(--ease)}
+  .logo:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .logo img{width:100%;height:90px;object-fit:contain;display:block;padding:.6rem}
+  .logo .cap{display:block;font-size:.66rem;letter-spacing:.04em;color:var(--gold-light);text-align:center;padding:.4rem .3rem;border-top:1px solid var(--line-gold)}
+  @media(max-width:460px){.logo img{height:64px}}
   .links{display:flex;flex-direction:column;gap:.5rem}
   .linkrow{display:flex;align-items:center;justify-content:space-between;gap:.8rem;font-size:.92rem;color:var(--forest-700);background:#fff;border:1px solid var(--line);border-radius:10px;padding:.75em .95em;text-decoration:none;transition:.25s var(--ease);word-break:break-word}
   .linkrow:hover{border-color:var(--gold);color:var(--gold-deep);background:var(--cream-2)}
@@ -227,6 +234,18 @@ const MONTH = "August";
 const WD_FULL = {Mon:"Monday", Wed:"Wednesday", Thu:"Thursday"};
 const PILLAR_LABEL = {reflection:"Reflection", teaching:"Teaching", invitation:"Invitation"};
 
+// Brand logos — shown on EVERY post for download. Click to download the full-res PNG.
+const LOGO_ASSETS = [
+  { label:"Full logo (gold)",   thumb:"logos/thumb/tiger-soul-logo-gold.png",  full:"logos/tiger-soul-logo-gold.png"  },
+  { label:"Logo on green",      thumb:"logos/thumb/tiger-soul-logo-green.png", full:"logos/tiger-soul-logo-green.png" },
+  { label:"Mark only (gold)",   thumb:"logos/thumb/tiger-soul-mark-gold.png",  full:"logos/tiger-soul-mark-gold.png"  },
+];
+const logoHTML =
+  `<div class="sec-label">Logo assets <span class="sec-note">click to download PNG</span></div>` +
+  `<div class="logos">${LOGO_ASSETS.map(l =>
+    `<a class="logo" href="${l.full}" download><img src="${l.thumb}" alt="${l.label}" loading="lazy"><span class="cap">${l.label}</span></a>`
+  ).join('')}</div>`;
+
 function openModal(p){
   document.getElementById('mDate').textContent = `${WD_FULL[p.weekday]}, ${MONTH} ${p.day}`;
   document.getElementById('mTitle').textContent = p.title;
@@ -248,7 +267,8 @@ function openModal(p){
     `<div class="assets">${p.assets.map(a => a.todo
         ? `<div class="asset asset--todo"><div class="ph">To design</div><div class="cap">${a.cap}</div></div>`
         : `<a class="asset" href="${a.src}" target="_blank" rel="noopener" title="Open full size to download"><img src="${a.src}" alt="" loading="lazy"><div class="cap">${a.cap}</div></a>`
-      ).join('')}</div>`;
+      ).join('')}</div>` +
+    logoHTML;
   document.getElementById('capText').textContent = p.caption;
 
   // wire copy button
