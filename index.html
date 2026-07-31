@@ -174,6 +174,7 @@
    links      : optional [{ label, url }] — website page, Google Drive folder, etc.
    notes      : optional note to the social media team (design brief / ideas)
    assets     : { src:"/path", cap:"note" }  — omit src + set todo:true for a graphic to be designed
+                (a todo asset may add href:"..." to make the "To design" card a clickable link)
    ============================================================ */
 const POSTS = [
   { day:3, weekday:"Mon", pillar:"invitation", title:"Reclamation Retreat — Announcement",
@@ -183,9 +184,9 @@ const POSTS = [
       {label:"Reclamation Retreat — website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"},
       {label:"Google Drive — flyer background photo (download)", url:"https://drive.google.com/file/d/13XrQoEKtAkgh3i8xdy2mccY2kaSMngBy/view?usp=sharing"}
     ],
-    notes:"Create a flyer for the Reclamation Retreat, happening December 4–7, 2026.\n\nThe flyer should include:\n•  Location:  Tulum, Mexico\n•  Purpose:  “Leave the noise behind, and come back to your truth”\n•  Dates:  December 4–7, 2026\n\nThis is our FIRST announcement of this retreat — we'll do more posts for it in the future, but this is the first one.\n\nSlide 2 = a photo of the location where we'll host it.",
+    notes:"Create a flyer for the Reclamation Retreat, happening December 4–7, 2026.\n\nThe flyer should include:\n•  Location:  Tulum, Mexico\n•  Purpose:  “Leave the noise behind, and come back to your truth”\n•  Dates:  December 4–7, 2026\n\nThis is our first announcement of this retreat.\n\nSlide 2 = a photo of the location where we'll host it.",
     assets:[
-      {todo:true, cap:"Slide 1 — Event announcement poster (to design). Background = the Google Drive photo linked above."},
+      {todo:true, href:"https://drive.google.com/file/d/13XrQoEKtAkgh3i8xdy2mccY2kaSMngBy/view?usp=sharing", cap:"Slide 1 — Event announcement poster (to design). Click to open the Google Drive background photo."},
       {src:"assets/reclamation-pool.avif", cap:"Slide 2 — Retreat location photo"}
     ] },
 
@@ -272,7 +273,9 @@ function openModal(p){
     (p.notes ? `<div class="sec-label">Notes</div><div class="notes" id="noteText"></div>` : '') +
     `<div class="sec-label">Assets</div>` +
     `<div class="assets">${p.assets.map(a => a.todo
-        ? `<div class="asset asset--todo"><div class="ph">To design</div><div class="cap">${a.cap}</div></div>`
+        ? (a.href
+            ? `<a class="asset asset--todo" href="${a.href}" target="_blank" rel="noopener" title="Open the background photo"><div class="ph">To design</div><div class="cap">${a.cap}</div></a>`
+            : `<div class="asset asset--todo"><div class="ph">To design</div><div class="cap">${a.cap}</div></div>`)
         : `<div class="asset"><div class="asset__media"><img src="${a.src}" alt="" loading="lazy">` +
             `<a class="dlbtn" href="${a.src}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
             `<div class="cap">${a.cap}</div></div>`
