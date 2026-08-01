@@ -108,7 +108,9 @@
   .asset{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;display:block}
   a.asset{transition:border-color .25s var(--ease),transform .25s var(--ease)}
   a.asset:hover{border-color:var(--gold);transform:translateY(-2px)}
-  .asset__media{position:relative}
+  .asset__media{position:relative;cursor:pointer}
+  .asset__media::after{content:"⤢";position:absolute;left:6px;top:6px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--gold-light);background:rgba(15,28,20,.7);opacity:0;transition:.2s var(--ease)}
+  .asset__media:hover::after{opacity:1}
   .asset img{width:100%;height:82px;object-fit:cover;display:block;background:var(--cream-3)}
   .dlbtn{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1;text-decoration:none;color:var(--gold-light);background:rgba(15,28,20,.85);border:1px solid rgba(230,207,157,.55);transition:.2s var(--ease)}
   .dlbtn:hover{background:var(--gold);color:var(--forest-950);border-color:var(--gold)}
@@ -116,6 +118,25 @@
   .asset--todo{border-style:dashed;border-color:var(--gold-deep)}
   .asset--todo .ph{height:82px;display:flex;align-items:center;justify-content:center;color:var(--gold-deep);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;background:repeating-linear-gradient(45deg,var(--cream-2),var(--cream-2) 8px,var(--cream-3) 8px,var(--cream-3) 16px)}
   .fmt{font-size:.9rem;color:var(--ink-soft);font-style:italic}
+  /* + Add asset tile */
+  .asset--add{border-style:dashed;border-color:var(--gold-deep);display:block;text-decoration:none;transition:.2s var(--ease)}
+  .asset--add:hover{background:var(--cream-2)}
+  .asset--add .ph{height:82px;display:flex;align-items:center;justify-content:center;background:var(--cream-2)}
+  .asset--add .plus{font-size:1.9rem;line-height:1;color:var(--gold-deep)}
+  .asset--add .cap{color:var(--gold-deep)}
+  /* Lightbox viewer */
+  .lightbox{position:fixed;inset:0;z-index:100;background:rgba(9,16,12,.93);display:none;align-items:center;justify-content:center;padding:3vh 2vw}
+  .lightbox.open{display:flex}
+  .lb-stage{max-height:94vh;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:flex-start;justify-content:center}
+  .lb-img{max-width:min(92vw,760px);height:auto;display:block;border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+  .lb-btn{position:fixed;background:rgba(15,28,20,.72);border:1px solid var(--line-gold);color:var(--gold-light);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;transition:.2s var(--ease)}
+  .lb-btn:hover{background:var(--gold);color:var(--forest-950);border-color:var(--gold)}
+  .lb-close{top:18px;right:20px;width:44px;height:44px;font-size:1.5rem}
+  .lb-prev,.lb-next{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:2rem}
+  .lb-prev{left:18px}.lb-next{right:18px}
+  .lb-dl{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--forest-950);text-decoration:none;font-family:var(--font-sans);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;padding:.7em 1.4em;border-radius:999px}
+  .lb-dl:hover{background:var(--gold-light)}
+  @media(max-width:560px){.lb-prev,.lb-next{width:42px;height:42px;font-size:1.5rem}.lb-prev{left:8px}.lb-next{right:8px}}
 
   footer.note{text-align:center;padding:2.4rem 1.2rem 3.2rem;color:var(--ink-soft);font-size:.84rem;border-top:1px solid var(--line)}
   footer.note strong{color:var(--gold-deep);font-weight:400}
@@ -158,6 +179,15 @@
     </div>
     <div class="modal__body" id="mBody"></div>
   </div>
+</div>
+
+<!-- Lightbox image viewer -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+  <div class="lb-stage" id="lbStage"><img class="lb-img" id="lbImg" alt="" /></div>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Next">&#8250;</button>
+  <a class="lb-dl" id="lbDl" download>&#8595; Download</a>
 </div>
 
 <footer class="note">
@@ -331,6 +361,8 @@ const LOGO_ASSETS = [
   { label:"Logo on green",      thumb:"logos/thumb/tiger-soul-logo-green.png", full:"logos/tiger-soul-logo-green.png" },
   { label:"Mark only (gold)",   thumb:"logos/thumb/tiger-soul-mark-gold.png",  full:"logos/tiger-soul-mark-gold.png"  },
 ];
+// "+ Add asset" opens GitHub's upload page for the assets folder
+const UPLOAD_URL = "https://github.com/laurenbur2/tiger-soul-calendar/upload/main/assets";
 const logoHTML =
   `<div class="sec-label">Logo assets <span class="sec-note">click to download PNG</span></div>` +
   `<div class="logos">${LOGO_ASSETS.map(l =>
@@ -362,26 +394,60 @@ function openModal(p){
         `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener">${l.label} <span class="arw">&#8599;</span></a>`
       ).join('')}</div>` : '') +
     (p.notes ? `<div class="sec-label">Notes</div><div class="notes" id="noteText"></div>` : '') +
-    ((p.assets && p.assets.length) ? `<div class="sec-label">Assets</div>` +
-    `<div class="assets">${p.assets.map(a => a.todo
-        ? (a.href
-            ? `<a class="asset asset--todo" href="${a.href}" target="_blank" rel="noopener" title="Open the background photo"><div class="ph">To design</div><div class="cap">${a.cap}</div></a>`
-            : `<div class="asset asset--todo"><div class="ph">To design</div><div class="cap">${a.cap}</div></div>`)
-        : `<div class="asset"><div class="asset__media"><img src="${a.thumb||a.src}" alt="" loading="lazy">` +
-            `<a class="dlbtn" href="${a.src}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
-            `<div class="cap">${a.cap}</div></div>`
-      ).join('')}</div>` : '') +
+    assetsBlock(p) +
     logoHTML;
   document.getElementById('capText').innerHTML = linkify(p.caption);
   if (p.notes) document.getElementById('noteText').textContent = p.notes;
 
+  // Click a photo to view it in the lightbox (download button stays separate)
+  body.querySelectorAll('.asset__media[data-view]').forEach(el => {
+    const i = parseInt(el.dataset.view, 10);
+    el.addEventListener('click', () => openLightbox(i));
+    el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openLightbox(i); } });
+  });
+  body.querySelectorAll('.dlbtn').forEach(b => b.addEventListener('click', e => e.stopPropagation()));
+
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+// Assets section: viewable photos (click to open lightbox) + a "+ Add asset" tile at the end
+let LB_IMGS = [];
+function assetsBlock(p){
+  const assets = p.assets || [];
+  LB_IMGS = assets.filter(a => !a.todo && a.src).map(a => a.src);
+  let v = -1;
+  const cards = assets.map(a => {
+    if (a.todo){
+      return a.href
+        ? `<a class="asset asset--todo" href="${a.href}" target="_blank" rel="noopener" title="Open the background photo"><div class="ph">To design</div><div class="cap">${a.cap}</div></a>`
+        : `<div class="asset asset--todo"><div class="ph">To design</div><div class="cap">${a.cap}</div></div>`;
+    }
+    v++;
+    return `<div class="asset"><div class="asset__media" data-view="${v}" role="button" tabindex="0" title="Click to view">` +
+      `<img src="${a.thumb||a.src}" alt="" loading="lazy">` +
+      `<a class="dlbtn" href="${a.src}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
+      `<div class="cap">${a.cap}</div></div>`;
+  }).join('');
+  const addTile = `<a class="asset asset--add" href="${UPLOAD_URL}" target="_blank" rel="noopener" title="Upload a new asset (opens GitHub)"><div class="ph"><span class="plus">+</span></div><div class="cap">Add asset</div></a>`;
+  return `<div class="sec-label">Assets</div><div class="assets">${cards}${addTile}</div>`;
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 // Escape, then turn any full URL into a clickable link (shows the whole link)
 function linkify(s){ return esc(s).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); }
 function closeModal(){ overlay.classList.remove('open'); document.body.style.overflow=''; }
+
+/* ---------- Lightbox ---------- */
+const lb = document.getElementById('lightbox');
+let lbIdx = 0;
+function openLightbox(i){ if(!LB_IMGS.length) return; lbIdx = i; lbShow(); lb.classList.add('open'); }
+function lbShow(){ const s = LB_IMGS[lbIdx]; document.getElementById('lbImg').src = s; document.getElementById('lbDl').href = s; document.getElementById('lbStage').scrollTop = 0; }
+function lbNav(d){ if(!LB_IMGS.length) return; lbIdx = (lbIdx + d + LB_IMGS.length) % LB_IMGS.length; lbShow(); }
+function closeLb(){ lb.classList.remove('open'); }
+document.getElementById('lbClose').onclick = closeLb;
+document.getElementById('lbPrev').onclick = () => lbNav(-1);
+document.getElementById('lbNext').onclick = () => lbNav(1);
+lb.addEventListener('click', e => { if(e.target===lb || e.target.id==='lbStage') closeLb(); });
 function copyText(txt, btn){
   navigator.clipboard.writeText(txt).then(()=>{
     const old = btn.textContent; btn.textContent='Copied ✓'; btn.classList.add('done');
@@ -390,7 +456,15 @@ function copyText(txt, btn){
 }
 document.getElementById('mClose').onclick = closeModal;
 overlay.addEventListener('click', e => { if(e.target===overlay) closeModal(); });
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (lb.classList.contains('open')){
+    if (e.key==='Escape') closeLb();
+    else if (e.key==='ArrowLeft') lbNav(-1);
+    else if (e.key==='ArrowRight') lbNav(1);
+    return;
+  }
+  if (e.key==='Escape') closeModal();
+});
 </script>
 </body>
 </html>
