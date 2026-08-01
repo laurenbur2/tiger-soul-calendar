@@ -381,7 +381,7 @@ const LOGO_ASSETS = [
 ];
 // Cache-buster: bump this whenever you replace an image but keep its filename,
 // so browsers fetch the new version instead of showing a stale cached one.
-const ASSET_V = "6";
+const ASSET_V = "7";
 function ver(u){ return u + (u.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_V; }
 const logoHTML =
   `<div class="sec-label">Logo assets <span class="sec-note">click to download PNG</span></div>` +
@@ -449,6 +449,10 @@ async function uploadFile(file){
   const dropTile = document.getElementById('dropTile');
   const cap = dropTile ? dropTile.querySelector('.cap') : null;
   if (!supa){ previewDropped(file); return; }
+  if (file.size > 50 * 1024 * 1024){
+    alert('“' + file.name + '” is too big to store here (over ~50 MB — full videos usually are).\n\nFor big videos, add a LINK instead: put a Google Drive or Dropbox link in the post. Photos and short clips upload fine.');
+    return;
+  }
   const orig = cap ? cap.textContent : '';
   if (cap) cap.textContent = 'Uploading…';
   if (dropTile) dropTile.classList.add('uploading');
@@ -463,7 +467,11 @@ async function uploadFile(file){
     if (ins.error) throw ins.error;
     addUploadCard(ins.data);
   } catch(err){
-    alert('Upload failed: ' + (err.message || err));
+    const m = err.message || String(err);
+    if (/maximum allowed size|exceeded|payload too large|413/i.test(m))
+      alert('That file is too large to store here (free storage limit ~50 MB). For big videos, add a Google Drive / Dropbox link to the post instead.');
+    else
+      alert('Upload failed: ' + m);
   } finally {
     if (cap) cap.textContent = orig;
     if (dropTile) dropTile.classList.remove('uploading');
