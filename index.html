@@ -129,6 +129,10 @@
   .asset--preview{border-style:dashed;border-color:var(--gold)}
   .asset--preview img,.asset--preview video{width:100%;height:82px;object-fit:cover;display:block;background:var(--cream-3)}
   .asset--preview .pv{color:var(--gold-deep);font-size:.62rem;letter-spacing:.03em}
+  .asset--up img,.asset--up video{width:100%;height:82px;object-fit:cover;display:block;background:var(--cream-3)}
+  .delbtn{position:absolute;top:6px;left:6px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;color:#fff;background:rgba(120,24,24,.85);border:1px solid rgba(255,255,255,.35);cursor:pointer;padding:0;transition:.2s var(--ease)}
+  .delbtn:hover{background:#a11}
+  .asset--add.uploading{opacity:.6;pointer-events:none}
   /* Lightbox viewer */
   .lightbox{position:fixed;inset:0;z-index:100;background:rgba(9,16,12,.93);display:none;align-items:center;justify-content:center;padding:3vh 2vw}
   .lightbox.open{display:flex}
@@ -194,6 +198,8 @@
   <button class="lb-btn lb-next" id="lbNext" aria-label="Next">&#8250;</button>
   <a class="lb-dl" id="lbDl" download>&#8595; Download</a>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <footer class="note">
   Internal planning page, <strong>not linked publicly</strong>. To edit a post, change the <strong>POSTS</strong> list at the top of this file in GitHub.<br>
@@ -360,6 +366,13 @@ document.getElementById('postCount').textContent = `${n} post${n===1?'':'s'} sch
 const overlay = document.getElementById('overlay');
 const PILLAR_LABEL = {reflection:"Reflection", teaching:"Teaching", invitation:"Invitation"};
 
+// Supabase — persistent asset uploads (reuses the Tiger Soul project).
+const SUPA_URL = "https://werkohszkcytdvljafha.supabase.co";
+const SUPA_KEY = "sb_publishable_YkTpPIzaCE-paCYapejC9w_G3iTt6g5";
+const BUCKET = "calendar-uploads";
+const supa = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+let CURRENT_DATE = null;
+
 // Brand logos — shown on EVERY post for download. Click to download the full-res PNG.
 const LOGO_ASSETS = [
   { label:"Full logo (gold)",   thumb:"logos/thumb/tiger-soul-logo-gold.png",  full:"logos/tiger-soul-logo-gold.png"  },
@@ -368,7 +381,7 @@ const LOGO_ASSETS = [
 ];
 // Cache-buster: bump this whenever you replace an image but keep its filename,
 // so browsers fetch the new version instead of showing a stale cached one.
-const ASSET_V = "5";
+const ASSET_V = "6";
 function ver(u){ return u + (u.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_V; }
 const logoHTML =
   `<div class="sec-label">Logo assets <span class="sec-note">click to download PNG</span></div>` +
@@ -377,6 +390,7 @@ const logoHTML =
   ).join('')}</div>`;
 
 function openModal(p){
+  CURRENT_DATE = p.date;
   const [Y,Mo,D] = p.date.split('-').map(Number);
   document.getElementById('mDate').textContent = `${WD_LONG[new Date(Y,Mo-1,D).getDay()]}, ${MONTH_NAMES[Mo-1]} ${D}`;
   document.getElementById('mTitle').textContent = p.title;
@@ -418,18 +432,77 @@ function openModal(p){
   const dropTile = document.getElementById('dropTile');
   if (dropTile){
     const input = document.getElementById('dropInput');
-    const take = files => { if (files && files[0]) previewDropped(files[0]); };
+    const take = files => { if (files && files[0]) uploadFile(files[0]); };
     dropTile.addEventListener('click', () => input.click());
     input.addEventListener('change', e => take(e.target.files));
     ['dragenter','dragover'].forEach(ev => dropTile.addEventListener(ev, e => { e.preventDefault(); dropTile.classList.add('drag'); }));
     ['dragleave','dragend'].forEach(ev => dropTile.addEventListener(ev, () => dropTile.classList.remove('drag')));
     dropTile.addEventListener('drop', e => { e.preventDefault(); dropTile.classList.remove('drag'); take(e.dataTransfer.files); });
   }
+  loadUploads(p.date);
 
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-// Show a dropped photo/video as a preview card (local to this browser — not saved/shared)
+// Upload a dropped photo/video to Supabase so it persists and is shareable.
+async function uploadFile(file){
+  const dropTile = document.getElementById('dropTile');
+  const cap = dropTile ? dropTile.querySelector('.cap') : null;
+  if (!supa){ previewDropped(file); return; }
+  const orig = cap ? cap.textContent : '';
+  if (cap) cap.textContent = 'Uploading…';
+  if (dropTile) dropTile.classList.add('uploading');
+  try {
+    const safe = file.name.replace(/[^\w.\-]+/g, '_');
+    const path = `${CURRENT_DATE}/${Date.now()}-${safe}`;
+    const up = await supa.storage.from(BUCKET).upload(path, file, { contentType: file.type || 'application/octet-stream', upsert:false });
+    if (up.error) throw up.error;
+    const pub = supa.storage.from(BUCKET).getPublicUrl(path);
+    const row = { post_date: CURRENT_DATE, url: pub.data.publicUrl, filename: file.name, path, is_video: (file.type||'').indexOf('video') === 0 };
+    const ins = await supa.from('calendar_assets').insert(row).select().single();
+    if (ins.error) throw ins.error;
+    addUploadCard(ins.data);
+  } catch(err){
+    alert('Upload failed: ' + (err.message || err));
+  } finally {
+    if (cap) cap.textContent = orig;
+    if (dropTile) dropTile.classList.remove('uploading');
+  }
+}
+// Render a saved (uploaded) asset with view + download + delete.
+function addUploadCard(row){
+  const grid = document.getElementById('assetGrid');
+  if (!grid) return;
+  const idx = LB_IMGS.length; LB_IMGS.push(row.url);
+  const card = document.createElement('div');
+  card.className = 'asset asset--up';
+  const media = row.is_video ? `<video src="${row.url}" muted playsinline></video>` : `<img src="${row.url}" alt="" loading="lazy">`;
+  card.innerHTML = `<div class="asset__media" data-view="${idx}" role="button" tabindex="0" title="Click to view">${media}` +
+    `<a class="dlbtn" href="${row.url}" download title="Download" aria-label="Download">&#8595;</a>` +
+    `<button class="delbtn" title="Delete" aria-label="Delete">&times;</button></div>` +
+    `<div class="cap">${esc(row.filename || 'Uploaded asset')}</div>`;
+  grid.insertBefore(card, document.getElementById('dropTile'));
+  const m = card.querySelector('.asset__media');
+  m.addEventListener('click', e => { if (e.target.closest('.dlbtn,.delbtn')) return; openLightbox(idx); });
+  card.querySelector('.dlbtn').addEventListener('click', e => e.stopPropagation());
+  card.querySelector('.delbtn').addEventListener('click', async e => {
+    e.stopPropagation();
+    if (!confirm('Delete this asset for everyone?')) return;
+    try {
+      await supa.from('calendar_assets').delete().eq('id', row.id);
+      if (row.path) await supa.storage.from(BUCKET).remove([row.path]);
+      card.remove();
+    } catch(err){ alert('Delete failed: ' + (err.message || err)); }
+  });
+}
+// Load previously-uploaded assets for a post.
+async function loadUploads(date){
+  if (!supa) return;
+  const res = await supa.from('calendar_assets').select('*').eq('post_date', date).order('created_at', { ascending:true });
+  if (res.error || !res.data) return;
+  res.data.forEach(addUploadCard);
+}
+// Fallback: local-only preview if Supabase isn't reachable.
 function previewDropped(file){
   const url = URL.createObjectURL(file);
   const isVid = (file.type || '').indexOf('video') === 0;
@@ -475,7 +548,14 @@ function closeModal(){ overlay.classList.remove('open'); document.body.style.ove
 const lb = document.getElementById('lightbox');
 let lbIdx = 0;
 function openLightbox(i){ if(!LB_IMGS.length) return; lbIdx = i; lbShow(); lb.classList.add('open'); }
-function lbShow(){ const s = LB_IMGS[lbIdx]; document.getElementById('lbImg').src = s; document.getElementById('lbDl').href = s; document.getElementById('lbStage').scrollTop = 0; }
+function lbShow(){
+  const s = LB_IMGS[lbIdx];
+  const stage = document.getElementById('lbStage');
+  const isVid = /\.(mp4|mov|webm|m4v|ogg)(\?|$)/i.test(s);
+  stage.innerHTML = isVid ? `<video class="lb-img" src="${s}" controls autoplay playsinline></video>` : `<img class="lb-img" src="${s}" alt="">`;
+  document.getElementById('lbDl').href = s;
+  stage.scrollTop = 0;
+}
 function lbNav(d){ if(!LB_IMGS.length) return; lbIdx = (lbIdx + d + LB_IMGS.length) % LB_IMGS.length; lbShow(); }
 function closeLb(){ lb.classList.remove('open'); }
 document.getElementById('lbClose').onclick = closeLb;
