@@ -482,6 +482,16 @@ document.getElementById('lbClose').onclick = closeLb;
 document.getElementById('lbPrev').onclick = () => lbNav(-1);
 document.getElementById('lbNext').onclick = () => lbNav(1);
 lb.addEventListener('click', e => { if(e.target===lb || e.target.id==='lbStage') closeLb(); });
+// Swipe on mobile: left = next slide, right = previous
+let lbTouchX = null, lbTouchY = null;
+lb.addEventListener('touchstart', e => { lbTouchX = e.changedTouches[0].clientX; lbTouchY = e.changedTouches[0].clientY; }, {passive:true});
+lb.addEventListener('touchend', e => {
+  if (lbTouchX === null) return;
+  const dx = e.changedTouches[0].clientX - lbTouchX;
+  const dy = e.changedTouches[0].clientY - lbTouchY;
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) lbNav(dx < 0 ? 1 : -1);
+  lbTouchX = lbTouchY = null;
+}, {passive:true});
 function copyText(txt, btn){
   navigator.clipboard.writeText(txt).then(()=>{
     const old = btn.textContent; btn.textContent='Copied ✓'; btn.classList.add('done');
