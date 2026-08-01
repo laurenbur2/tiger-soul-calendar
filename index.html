@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tiger Soul — Content Calendar · August 2026</title>
+<title>Tiger Soul · Content Calendar · August 2026</title>
 <meta name="robots" content="noindex, nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -119,11 +119,16 @@
   .asset--todo .ph{height:82px;display:flex;align-items:center;justify-content:center;color:var(--gold-deep);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;background:repeating-linear-gradient(45deg,var(--cream-2),var(--cream-2) 8px,var(--cream-3) 8px,var(--cream-3) 16px)}
   .fmt{font-size:.9rem;color:var(--ink-soft);font-style:italic}
   /* + Add asset tile */
-  .asset--add{border-style:dashed;border-color:var(--gold-deep);display:block;text-decoration:none;transition:.2s var(--ease)}
+  .asset--add{border-style:dashed;border-color:var(--gold-deep);display:block;text-decoration:none;cursor:pointer;transition:.2s var(--ease)}
   .asset--add:hover{background:var(--cream-2)}
+  .asset--add.drag{background:var(--cream-3);border-color:var(--gold)}
+  .asset--add.drag .plus{color:var(--gold)}
   .asset--add .ph{height:82px;display:flex;align-items:center;justify-content:center;background:var(--cream-2)}
   .asset--add .plus{font-size:1.9rem;line-height:1;color:var(--gold-deep)}
   .asset--add .cap{color:var(--gold-deep)}
+  .asset--preview{border-style:dashed;border-color:var(--gold)}
+  .asset--preview img,.asset--preview video{width:100%;height:82px;object-fit:cover;display:block;background:var(--cream-3)}
+  .asset--preview .pv{color:var(--gold-deep);font-size:.62rem;letter-spacing:.03em}
   /* Lightbox viewer */
   .lightbox{position:fixed;inset:0;z-index:100;background:rgba(9,16,12,.93);display:none;align-items:center;justify-content:center;padding:3vh 2vw}
   .lightbox.open{display:flex}
@@ -155,8 +160,8 @@
 
 <header class="masthead">
   <p class="eyebrow">Tiger Soul · Social Content Calendar</p>
-  <h1>Aug 2026 <span class="yr">– Mar 2027</span></h1>
-  <p>Three posts a week — Monday, Wednesday, Thursday. Tap any highlighted day to see the full brief for that post.</p>
+  <h1>Aug 2026 <span class="yr">- Mar 2027</span></h1>
+  <p>Three posts a week: Monday, Wednesday, Thursday. Tap any highlighted day to see the full brief for that post.</p>
 </header>
 
 <div class="legend wrap">
@@ -191,7 +196,7 @@
 </div>
 
 <footer class="note">
-  Internal planning page — <strong>not linked publicly</strong>. To edit a post, change the <strong>POSTS</strong> list at the top of this file in GitHub.<br>
+  Internal planning page, <strong>not linked publicly</strong>. To edit a post, change the <strong>POSTS</strong> list at the top of this file in GitHub.<br>
   Assets marked <strong>“to design”</strong> still need a graphic made. Everything else pulls from the live site.
 </footer>
 
@@ -211,85 +216,85 @@
                 (a todo asset may add href:"..." to make the "To design" card a clickable link)
    ============================================================ */
 const POSTS = [
-  { date:"2026-08-03", pillar:"invitation", title:"Reclamation Retreat — Announcement",
-    platform:"Instagram + Facebook", format:"Carousel — 11 slides",
+  { date:"2026-08-03", pillar:"invitation", title:"Reclamation Retreat Announcement",
+    platform:"Instagram + Facebook", format:"Carousel (11 slides)",
     todos:[
       "Add the Reclamation Retreat link to the Instagram bio",
-      "Post the Reclamation carousel — all 11 slides are ready below"
+      "Post the Reclamation carousel (all 11 slides are ready below)"
     ],
-    caption:"Caption should include:\n•  Date:  December 4–7, 2026\n•  Location:  Tulum, Mexico\n•  Activities  (pull from the itinerary on the website)\n•  Healing medicine:  Bufo (5-MeO-DMT)\n\nReclamation Retreat page — click to open:\nhttps://www.tigersoulretreats.com/reclamation-retreat/\n\nTip: on the website you can see the full schedule — click the + sign on each itinerary item for the drop-down menu.",
+    caption:"Caption should include:\n•  Date:  December 4-7, 2026\n•  Location:  Tulum, Mexico\n•  Activities  (pull from the itinerary on the website)\n•  Healing medicine:  Bufo (5-MeO-DMT)\n\nReclamation Retreat page (click to open):\nhttps://www.tigersoulretreats.com/reclamation-retreat/\n\nTip: on the website you can see the full schedule. Click the + sign on each itinerary item for the drop-down menu.",
     links:[
-      {label:"Reclamation Retreat — website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"}
+      {label:"Reclamation Retreat website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"}
     ],
-    notes:"This is our first announcement of the Reclamation Retreat (December 4–7, 2026).\n\nThe full 11-slide carousel is designed and ready below — post them in order (Slide 1 → 11):\nFlyer → Where You'll Stay → Welcome Dinner → Opening Ceremony → Bufo → Rapéh & Sound Healing → Cenote Corazón → Integration Circles → Celebration Dinner → Farewell Breakfast → Everything Included (recap).",
+    notes:"This is our first announcement of the Reclamation Retreat (December 4-7, 2026).\n\nThe full 11-slide carousel is designed and ready below. Post them in order (Slide 1 → 11):\nFlyer → Where You'll Stay → Welcome Dinner → Opening Ceremony → Bufo → Rapéh → Cenote Corazón → Integration Circles → Celebration Dinner → Farewell Breakfast → Everything Included (recap).",
     assets:[
-      {src:"assets/carousel/01.jpg", thumb:"assets/carousel/thumb/01.jpg", cap:"Slide 1 — Flyer"},
-      {src:"assets/carousel/02.jpg", thumb:"assets/carousel/thumb/02.jpg", cap:"Slide 2 — Where You’ll Stay"},
-      {src:"assets/carousel/03.jpg", thumb:"assets/carousel/thumb/03.jpg", cap:"Slide 3 — Welcome Dinner (Tierra at Holistika)"},
-      {src:"assets/carousel/04.jpg", thumb:"assets/carousel/thumb/04.jpg", cap:"Slide 4 — The Opening Ceremony"},
-      {src:"assets/carousel/05.jpg", thumb:"assets/carousel/thumb/05.jpg", cap:"Slide 5 — Bufo Ceremony"},
-      {src:"assets/carousel/06.jpg", thumb:"assets/carousel/thumb/06.jpg", cap:"Slide 6 — Rapéh & Sound Healing"},
-      {src:"assets/carousel/07.jpg", thumb:"assets/carousel/thumb/07.jpg", cap:"Slide 7 — Cenote Corazón"},
-      {src:"assets/carousel/08.jpg", thumb:"assets/carousel/thumb/08.jpg", cap:"Slide 8 — Integration Circles"},
-      {src:"assets/carousel/09.jpg", thumb:"assets/carousel/thumb/09.jpg", cap:"Slide 9 — Celebration Dinner (Casa Banana)"},
-      {src:"assets/carousel/10.jpg", thumb:"assets/carousel/thumb/10.jpg", cap:"Slide 10 — Farewell Breakfast (MOTMOT)"},
-      {src:"assets/carousel/11.jpg", thumb:"assets/carousel/thumb/11.jpg", cap:"Slide 11 — Everything Included (recap)"}
+      {src:"assets/carousel/01.jpg", thumb:"assets/carousel/thumb/01.jpg", cap:"Slide 1: Flyer"},
+      {src:"assets/carousel/02.jpg", thumb:"assets/carousel/thumb/02.jpg", cap:"Slide 2: Where You’ll Stay"},
+      {src:"assets/carousel/03.jpg", thumb:"assets/carousel/thumb/03.jpg", cap:"Slide 3: Welcome Dinner (Tierra at Holistika)"},
+      {src:"assets/carousel/04.jpg", thumb:"assets/carousel/thumb/04.jpg", cap:"Slide 4: The Opening Ceremony"},
+      {src:"assets/carousel/05.jpg", thumb:"assets/carousel/thumb/05.jpg", cap:"Slide 5: Bufo Ceremony"},
+      {src:"assets/carousel/06.jpg", thumb:"assets/carousel/thumb/06.jpg", cap:"Slide 6: Rapéh"},
+      {src:"assets/carousel/07.jpg", thumb:"assets/carousel/thumb/07.jpg", cap:"Slide 7: Cenote Corazón"},
+      {src:"assets/carousel/08.jpg", thumb:"assets/carousel/thumb/08.jpg", cap:"Slide 8: Integration Circles"},
+      {src:"assets/carousel/09.jpg", thumb:"assets/carousel/thumb/09.jpg", cap:"Slide 9: Celebration Dinner (Casa Banana)"},
+      {src:"assets/carousel/10.jpg", thumb:"assets/carousel/thumb/10.jpg", cap:"Slide 10: Farewell Breakfast (MOTMOT)"},
+      {src:"assets/carousel/11.jpg", thumb:"assets/carousel/thumb/11.jpg", cap:"Slide 11: Everything Included (recap)"}
     ] },
 
   { date:"2026-08-05", pillar:"reflection", title:"Raven's Testimonial",
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
-      "Cut to the 2:04–2:47 clip — Raven on Blaine as an instructor",
-      "Add captions to the video — recommend Veed",
+      "Cut to the 2:04-2:47 clip (Raven on Blaine as an instructor)",
+      "Add captions with Veed",
       "Add the Tiger Soul logo"
     ],
-    caption:"Caption should include:\n•  A shout-out to Raven — she's a very powerful healer.",
+    caption:"Caption should include:\n•  A shout-out to Raven, a very powerful healer.",
     links:[
-      {label:"Google Drive — Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
+      {label:"Google Drive: Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
     ],
-    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00–1:38 — the training\n•  2:04–2:47 — Blaine as an instructor   ← use this clip for this post\n•  4:10–end — how the space is held\n\nWhen cutting, push in and push out to make the video more dynamic — and to cut out any unusable words, stutters, etc.\n\nCaptions: adding captions to the video is much easier with Veed.\n\nAdd a trending audio from Instagram that matches the vibe, set to 3% volume.",
+    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00-1:38 · the training\n•  2:04-2:47 · Blaine as an instructor   ← use this clip for this post\n•  4:10-end · how the space is held\n\nWhen cutting, push in and push out to make the video more dynamic, and to cut out any unusable words, stutters, etc.\n\nCaptions: adding captions to the video is much easier with Veed.\n\nAdd a trending audio from Instagram that matches the vibe, set to 3% volume.",
   },
 
-  { date:"2026-08-06", pillar:"teaching", title:"Blaine — Reclamation Retreat Announcement",
+  { date:"2026-08-06", pillar:"teaching", title:"Blaine's Reclamation Retreat Announcement",
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
       "Blaine to record the announcement video (not available yet)",
-      "Add captions to the video — recommend Veed",
+      "Add captions with Veed",
       "Brand it with a no-background logo (full gold logo or the gold mark)"
     ],
-    caption:"Caption should include:\n•  Date:  December 4–7, 2026\n•  Location:  Tulum, Mexico\n•  Activities  (pull from the itinerary on the website)\n•  Healing medicine:  Bufo (5-MeO-DMT)\n\nReclamation Retreat page — click to open:\nhttps://www.tigersoulretreats.com/reclamation-retreat/\n\nTip: on the website you can see the full schedule — click the + sign on each itinerary item for the drop-down menu.",
+    caption:"Caption should include:\n•  Date:  December 4-7, 2026\n•  Location:  Tulum, Mexico\n•  Activities  (pull from the itinerary on the website)\n•  Healing medicine:  Bufo (5-MeO-DMT)\n\nReclamation Retreat page (click to open):\nhttps://www.tigersoulretreats.com/reclamation-retreat/\n\nTip: on the website you can see the full schedule. Click the + sign on each itinerary item for the drop-down menu.",
     links:[
-      {label:"Reclamation Retreat — website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"}
+      {label:"Reclamation Retreat website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"}
     ],
-    notes:"Blaine records a short video announcing the Reclamation Retreat (December 4–7, 2026) — the video isn't available yet.\n\nSame caption as the Aug 3 Reclamation announcement.\n\nAdd captions with Veed. Brand it with one of our no-background (transparent) logos — the full gold logo or the gold mark.",
-    assets:[{todo:true, cap:"Blaine's Reclamation announcement video — to record / provide"}] },
+    notes:"Blaine records a short video announcing the Reclamation Retreat (December 4-7, 2026). The video isn't available yet.\n\nSame caption as the Aug 3 Reclamation announcement.\n\nAdd captions with Veed. Brand it with one of our no-background (transparent) logos: the full gold logo or the gold mark.",
+    assets:[{todo:true, cap:"Blaine's Reclamation announcement video (to record / provide)"}] },
 
-  { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial — The Training",
+  { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial: The Training",
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
-      "Cut to the 1:00–1:38 clip — the training",
-      "Add captions to the video — recommend Veed",
+      "Cut to the 1:00-1:38 clip (the training)",
+      "Add captions with Veed",
       "Add the Tiger Soul logo"
     ],
-    caption:"Caption should include:\n•  A shout-out to Raven — she's a very powerful healer.",
+    caption:"Caption should include:\n•  A shout-out to Raven, a very powerful healer.",
     links:[
-      {label:"Google Drive — Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
+      {label:"Google Drive: Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
     ],
-    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00–1:38 — the training   ← use this clip for this post\n•  2:04–2:47 — Blaine as an instructor\n•  4:10–end — how the space is held\n\nWhen cutting, push in and push out to make the video more dynamic — and to cut out any unusable words, stutters, etc.\n\nCaptions: adding captions to the video is much easier with Veed.\n\nAdd a trending audio from Instagram that matches the vibe, set to 3% volume.",
+    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00-1:38 · the training   ← use this clip for this post\n•  2:04-2:47 · Blaine as an instructor\n•  4:10-end · how the space is held\n\nWhen cutting, push in and push out to make the video more dynamic, and to cut out any unusable words, stutters, etc.\n\nCaptions: adding captions to the video is much easier with Veed.\n\nAdd a trending audio from Instagram that matches the vibe, set to 3% volume.",
   },
 
-  { date:"2026-11-18", pillar:"reflection", title:"Raven's Testimonial — How the Space Is Held",
+  { date:"2026-11-18", pillar:"reflection", title:"Raven's Testimonial: How the Space Is Held",
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
-      "Cut to the 4:10–end clip — how the space is held",
-      "Add captions to the video — recommend Veed",
+      "Cut to the 4:10-end clip (how the space is held)",
+      "Add captions with Veed",
       "Add the Tiger Soul logo"
     ],
-    caption:"Caption should include:\n•  A shout-out to Raven — she's a very powerful healer.",
+    caption:"Caption should include:\n•  A shout-out to Raven, a very powerful healer.",
     links:[
-      {label:"Google Drive — Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
+      {label:"Google Drive: Raven's testimonial video (download)", url:"https://drive.google.com/file/d/1Qe5Ii_ZAfVxm0xyyGmvNPBFmWvFnyLN1/view?usp=sharing"}
     ],
-    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00–1:38 — the training\n•  2:04–2:47 — Blaine as an instructor\n•  4:10–end — how the space is held   ← use this clip for this post\n\nWhen cutting, push in and push out to make the video more dynamic — and to cut out any unusable words, stutters, etc.\n\nCaptions: adding captions to the video is much easier with Veed.\n\nAdd a trending audio from Instagram that matches the vibe, set to 3% volume.",
+    notes:"This one video contains THREE usable clips (discard everything before the 1:00 mark):\n•  1:00-1:38 · the training\n•  2:04-2:47 · Blaine as an instructor\n•  4:10-end · how the space is held   ← use this clip for this post\n\nWhen cutting, push in and push out to make the video more dynamic, and to cut out any unusable words, stutters, etc.\n\nCaptions: adding captions to the video is much easier with Veed.\n\nAdd a trending audio from Instagram that matches the vibe, set to 3% volume.",
   },
 ];
 
@@ -361,11 +366,9 @@ const LOGO_ASSETS = [
   { label:"Logo on green",      thumb:"logos/thumb/tiger-soul-logo-green.png", full:"logos/tiger-soul-logo-green.png" },
   { label:"Mark only (gold)",   thumb:"logos/thumb/tiger-soul-mark-gold.png",  full:"logos/tiger-soul-mark-gold.png"  },
 ];
-// "+ Add asset" opens GitHub's upload page for the assets folder
-const UPLOAD_URL = "https://github.com/laurenbur2/tiger-soul-calendar/upload/main/assets";
 // Cache-buster: bump this whenever you replace an image but keep its filename,
 // so browsers fetch the new version instead of showing a stale cached one.
-const ASSET_V = "3";
+const ASSET_V = "4";
 function ver(u){ return u + (u.indexOf('?') >= 0 ? '&' : '?') + 'v=' + ASSET_V; }
 const logoHTML =
   `<div class="sec-label">Logo assets <span class="sec-note">click to download PNG</span></div>` +
@@ -411,8 +414,32 @@ function openModal(p){
   });
   body.querySelectorAll('.dlbtn').forEach(b => b.addEventListener('click', e => e.stopPropagation()));
 
+  // Drag-and-drop "Drop asset here" tile (previews locally in this browser)
+  const dropTile = document.getElementById('dropTile');
+  if (dropTile){
+    const input = document.getElementById('dropInput');
+    const take = files => { if (files && files[0]) previewDropped(files[0]); };
+    dropTile.addEventListener('click', () => input.click());
+    input.addEventListener('change', e => take(e.target.files));
+    ['dragenter','dragover'].forEach(ev => dropTile.addEventListener(ev, e => { e.preventDefault(); dropTile.classList.add('drag'); }));
+    ['dragleave','dragend'].forEach(ev => dropTile.addEventListener(ev, () => dropTile.classList.remove('drag')));
+    dropTile.addEventListener('drop', e => { e.preventDefault(); dropTile.classList.remove('drag'); take(e.dataTransfer.files); });
+  }
+
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+// Show a dropped photo/video as a preview card (local to this browser — not saved/shared)
+function previewDropped(file){
+  const url = URL.createObjectURL(file);
+  const isVid = (file.type || '').indexOf('video') === 0;
+  const card = document.createElement('div');
+  card.className = 'asset asset--preview';
+  card.innerHTML = `<div class="asset__media">` +
+    (isVid ? `<video src="${url}" muted playsinline></video>` : `<img src="${url}" alt="">`) +
+    `</div><div class="cap">${esc(file.name)}<br><span class="pv">Preview only &middot; not saved</span></div>`;
+  const grid = document.getElementById('assetGrid');
+  grid.insertBefore(card, document.getElementById('dropTile'));
 }
 
 // Assets section: viewable photos (click to open lightbox) + a "+ Add asset" tile at the end
@@ -433,8 +460,11 @@ function assetsBlock(p){
       `<a class="dlbtn" href="${ver(a.src)}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
       `<div class="cap">${a.cap}</div></div>`;
   }).join('');
-  const addTile = `<a class="asset asset--add" href="${UPLOAD_URL}" target="_blank" rel="noopener" title="Upload a new asset (opens GitHub)"><div class="ph"><span class="plus">+</span></div><div class="cap">Add asset</div></a>`;
-  return `<div class="sec-label">Assets</div><div class="assets">${cards}${addTile}</div>`;
+  const addTile = `<div class="asset asset--add" id="dropTile" tabindex="0" title="Drop a photo or video here, or click to choose">` +
+      `<div class="ph"><span class="plus">&#8681;</span></div>` +
+      `<div class="cap">Drop asset here</div>` +
+      `<input type="file" id="dropInput" accept="image/*,video/*" hidden></div>`;
+  return `<div class="sec-label">Assets</div><div class="assets" id="assetGrid">${cards}${addTile}</div>`;
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 // Escape, then turn any full URL into a clickable link (shows the whole link)
