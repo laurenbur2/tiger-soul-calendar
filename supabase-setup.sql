@@ -34,3 +34,7 @@ drop policy if exists "ca delete" on public.calendar_assets;
 create policy "ca read"   on public.calendar_assets for select using (true);
 create policy "ca insert" on public.calendar_assets for insert with check (true);
 create policy "ca delete" on public.calendar_assets for delete using (true);
+
+-- 3) Grant the public roles table access (RLS controls rows; this grants the table)
+grant usage on schema public to anon, authenticated;
+grant select, insert, delete on public.calendar_assets to anon, authenticated;
