@@ -164,6 +164,15 @@
     .grid,.dow-row{gap:5px}
     .legend .count{margin-left:0;flex-basis:100%;text-align:center}
   }
+
+  /* ---------- Placeholder cells ---------- */
+  .cell--post.cell--ph{background:var(--forest-850);border:1px dashed rgba(198,167,105,.5)}
+  .cell--post.cell--ph .num{color:var(--gold-light)}
+  .cell--post.cell--ph .ttl{color:rgba(246,241,231,.62)}
+  .cell--post.cell--ph .plat{color:rgba(230,207,157,.9);font-style:italic}
+  .cell--post.cell--ph:hover{border-color:var(--gold)}
+  .ph-banner{background:rgba(198,167,105,.12);border:1px solid var(--line-gold);border-left:3px solid var(--gold);border-radius:10px;padding:.85rem 1.05rem;font-size:.92rem;color:var(--ink-soft);margin-bottom:.4rem}
+  .ph-banner strong{color:var(--gold-deep);font-weight:400}
 </style>
 </head>
 <body>
@@ -171,11 +180,13 @@
 <header class="masthead">
   <p class="eyebrow">Tiger Soul · Social Content Calendar</p>
   <h1>Aug 2026 <span class="yr">- Mar 2027</span></h1>
-  <p>Three posts a week: Monday, Wednesday, Thursday. Tap any highlighted day to see the full brief for that post.</p>
+  <p>Five posts a week, Monday through Friday. Tap any highlighted day to see the full brief for that post.</p>
 </header>
 
 <div class="legend wrap">
-  <span class="item"><span class="dot dot--invitation"></span>Three posts a week · Mon · Wed · Thu</span>
+  <span class="item"><span class="dot dot--reflection"></span>Reflection</span>
+  <span class="item"><span class="dot dot--teaching"></span>Teaching</span>
+  <span class="item"><span class="dot dot--invitation"></span>Invitation</span>
   <span class="item count" id="postCount">0 posts scheduled</span>
 </div>
 
@@ -209,7 +220,7 @@
 
 <footer class="note">
   Internal planning page, <strong>not linked publicly</strong>. To edit a post, change the <strong>POSTS</strong> list at the top of this file in GitHub.<br>
-  Assets marked <strong>“to design”</strong> still need a graphic made. Everything else pulls from the live site.
+  Dashed cells marked <strong>“Placeholder”</strong> are the auto-filled weekly cadence — open one and write the brief, or add a real POST for that date to replace it. Edit the weekly slots in the <strong>SLOTS</strong> list.
 </footer>
 
 <script>
@@ -325,7 +336,51 @@ const MONTHS = [
   {y:2027,m:1},{y:2027,m:2},{y:2027,m:3}
 ];
 
-const byDate = Object.fromEntries(POSTS.map(p => [p.date, p]));
+/* ---------- Recurring 5x/week placeholders ----------
+   Every week from PLACEHOLDER_START, for PLACEHOLDER_WEEKS weeks, this
+   auto-fills the five weekday SLOTS below as placeholders. A real POST
+   above with the same date always overrides its placeholder.
+   Change the cadence by editing SLOTS; run more weeks with PLACEHOLDER_WEEKS. */
+const PLACEHOLDER_START = "2026-08-03";  // first Monday of the cadence
+const PLACEHOLDER_WEEKS = 8;             // how many weeks to auto-fill
+// wd: 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri
+const SLOTS = [
+  { wd:1, pillar:"reflection", title:"Blaine on His Life", format:"Video (Reel)",
+    notes:"Blaine talks about his life, prompted by a question shown on screen. Choose one question, put it on-screen as the hook, and let him answer to camera. A recurring familiar face is what builds brand trust and engagement.\n\nAdd captions with Veed. Brand it with a transparent gold logo." },
+  { wd:2, pillar:"reflection", title:"Blaine's Life", format:"Carousel or single image",
+    notes:"Carousel or static post highlighting a piece of Blaine's life and story. Same goal as the Monday video: a familiar face, week after week, builds trust." },
+  { wd:3, pillar:"reflection", title:"Testimonial", format:"Video (Reel)",
+    notes:"A client or participant testimonial video. Add captions with Veed and brand it with the Tiger Soul logo." },
+  { wd:4, pillar:"teaching", title:"Reaction / Educational", format:"Video (Reel)", alt:true,
+    notes:"Alternates weekly. One week: Blaine reacts to what's happening in the psychedelic therapy industry. Next week: a purely educational piece (bufo prep, integration, what a 5-MeO ceremony is actually like)." },
+  { wd:5, pillar:"invitation", title:"Review Carousel", format:"Carousel",
+    notes:"Highlight a real review (Google or similar) as a carousel. Social proof that gently points toward booking." },
+];
+const shiftISO = (iso, days) => {
+  const [Y,M,D] = iso.split('-').map(Number);
+  const dt = new Date(Y, M-1, D + days);
+  return `${dt.getFullYear()}-${pad2(dt.getMonth()+1)}-${pad2(dt.getDate())}`;
+};
+// Real posts win; placeholders fill the remaining weekday slots.
+const byDate = {};
+POSTS.forEach(p => { byDate[p.date] = p; });
+let PLACEHOLDER_COUNT = 0;
+for (let w = 0; w < PLACEHOLDER_WEEKS; w++){
+  SLOTS.forEach(slot => {
+    const date = shiftISO(PLACEHOLDER_START, w*7 + (slot.wd - 1));
+    if (byDate[date]) return;                 // a real POST overrides this day
+    const title = slot.alt
+      ? (w % 2 === 0 ? "Reaction: Psychedelic Therapy" : "Educational Post")
+      : slot.title;
+    byDate[date] = {
+      date, pillar: slot.pillar, title,
+      platform: "Instagram + Facebook", format: slot.format,
+      placeholder: true, notes: slot.notes,
+      caption: "Placeholder — write the caption here when the post is ready."
+    };
+    PLACEHOLDER_COUNT++;
+  });
+}
 const calendar = document.getElementById('calendar');
 
 MONTHS.forEach(({y,m}) => {
@@ -348,12 +403,12 @@ MONTHS.forEach(({y,m}) => {
     const cell = document.createElement('div');
     if (post){
       const wd = WD_SHORT[new Date(y, m-1, d).getDay()];
-      cell.className = 'cell cell--post';
+      cell.className = 'cell cell--post' + (post.placeholder ? ' cell--ph' : '');
       cell.innerHTML =
         `<span class="num">${d}</span>` +
         `<span class="pill ${post.pillar}">${wd}</span>` +
         `<span class="ttl">${post.title}</span>` +
-        `<span class="plat">${post.platform.replace('Instagram + Facebook','IG + FB')}</span>`;
+        `<span class="plat">${post.placeholder ? 'Placeholder' : post.platform.replace('Instagram + Facebook','IG + FB')}</span>`;
       cell.addEventListener('click', () => openModal(post));
       cell.setAttribute('role','button'); cell.tabIndex = 0;
       cell.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(post);} });
@@ -369,7 +424,8 @@ MONTHS.forEach(({y,m}) => {
 
 // Keep the header count in sync with the POSTS list
 const n = POSTS.length;
-document.getElementById('postCount').textContent = `${n} post${n===1?'':'s'} scheduled`;
+document.getElementById('postCount').textContent =
+  `${n} briefed · ${PLACEHOLDER_COUNT} placeholder${PLACEHOLDER_COUNT===1?'':'s'}`;
 
 /* ---------- Modal ---------- */
 const overlay = document.getElementById('overlay');
@@ -415,7 +471,11 @@ function openModal(p){
     ? `<div class="sec-label">To-do</div>` +
       `<ul class="todo">${todos.map(t => `<li>${esc(t)}</li>`).join('')}</ul>`
     : '';
+  const phBanner = p.placeholder
+    ? `<div class="ph-banner"><strong>Placeholder.</strong> This slot is part of your weekly 5&times;-a-week cadence. Write the caption and drop in assets when it's ready, or add a real POST for this date in the file to replace it.</div>`
+    : '';
   body.innerHTML =
+    phBanner +
     todosHTML +
     `<div class="sec-label">Caption</div>` +
     `<div class="caption" id="capText"></div>` +
