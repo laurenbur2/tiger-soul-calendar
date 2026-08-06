@@ -91,6 +91,8 @@
   .htag{font-size:.78rem;color:var(--gold-deep);background:var(--cream-3);padding:.3em .7em;border-radius:8px}
   .sec-note{margin-left:.5rem;font-size:.6rem;letter-spacing:.1em;color:var(--ink-soft);text-transform:none}
   .notes{white-space:pre-wrap;font-size:.96rem;color:var(--ink);background:var(--cream-2);border:1px solid var(--line-gold);border-left:3px solid var(--gold-deep);border-radius:10px;padding:.95rem 1.1rem;line-height:1.55}
+  .notes a{color:var(--gold-deep);text-decoration:underline;word-break:break-all}
+  .notes a:hover{color:var(--forest-700)}
   .todo{list-style:none;background:rgba(198,167,105,.12);border:1px solid var(--line-gold);border-radius:10px;padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.55rem}
   .todo li{position:relative;padding-left:1.4rem;color:var(--gold-deep);font-size:.98rem;line-height:1.4}
   .todo li::before{content:"→";position:absolute;left:0;top:0;color:var(--gold-deep)}
@@ -494,7 +496,7 @@ function openModal(p){
     assetsBlock(p) +
     logoHTML;
   document.getElementById('capText').innerHTML = linkify(p.caption);
-  if (p.notes) document.getElementById('noteText').textContent = p.notes;
+  if (p.notes) document.getElementById('noteText').innerHTML = linkify(p.notes);
 
   // Click a photo to view it in the lightbox (download button stays separate)
   body.querySelectorAll('.asset__media[data-view]').forEach(el => {
