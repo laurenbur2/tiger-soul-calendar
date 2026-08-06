@@ -282,7 +282,7 @@ const POSTS = [
   },
 
   { date:"2026-08-06", pillar:"teaching", title:"Blaine's Reclamation Retreat Announcement",
-    platform:"Instagram + Facebook", format:"Video (Reel)",
+    platform:"Instagram + Facebook", format:"Video (Reel)", notesFirst:true,
     todos:[
       "Blaine to record the announcement video (not available yet)",
       "Add captions with Veed",
@@ -292,7 +292,7 @@ const POSTS = [
     links:[
       {label:"Reclamation Retreat website page (all details)", url:"https://www.tigersoulretreats.com/reclamation-retreat/"}
     ],
-    notes:"Blaine records a short video announcing the Reclamation Retreat (December 4-7, 2026). The video isn't available yet.\n\nSame caption as the Aug 3 Reclamation announcement.\n\nAdd captions with Veed. Brand it with one of our no-background (transparent) logos: the full gold logo or the gold mark.",
+    notes:"Blaine records a short video announcing the Reclamation Retreat (December 4-7, 2026), in the style of this reel:\nhttps://www.instagram.com/reel/DI4PLNwv8jI/\n\nMatch the visual style only (not copying his talking format, it's not good).",
     assets:[{todo:true, cap:"Blaine's Reclamation announcement video (to record / provide)"}] },
 
   { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial: The Training",
@@ -474,16 +474,23 @@ function openModal(p){
   const phBanner = p.placeholder
     ? `<div class="ph-banner"><strong>Placeholder.</strong> This slot is part of your weekly 5&times;-a-week cadence. Write the caption and drop in assets when it's ready, or add a real POST for this date in the file to replace it.</div>`
     : '';
+  const captionBlock =
+    `<div class="sec-label">Caption</div>` +
+    `<div class="caption" id="capText"></div>`;
+  const notesBlock = p.notes
+    ? `<div class="sec-label">Notes</div><div class="notes" id="noteText"></div>`
+    : '';
+  const linksBlock = links.length
+    ? `<div class="sec-label">Links &amp; info</div>` +
+      `<div class="links">${links.map(l =>
+        `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener">${l.label} <span class="arw">&#8599;</span></a>`
+      ).join('')}</div>`
+    : '';
   body.innerHTML =
     phBanner +
     todosHTML +
-    `<div class="sec-label">Caption</div>` +
-    `<div class="caption" id="capText"></div>` +
-    (links.length ? `<div class="sec-label">Links &amp; info</div>` +
-      `<div class="links">${links.map(l =>
-        `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener">${l.label} <span class="arw">&#8599;</span></a>`
-      ).join('')}</div>` : '') +
-    (p.notes ? `<div class="sec-label">Notes</div><div class="notes" id="noteText"></div>` : '') +
+    (p.notesFirst ? notesBlock + captionBlock : captionBlock + linksBlock + notesBlock) +
+    (p.notesFirst ? linksBlock : '') +
     assetsBlock(p) +
     logoHTML;
   document.getElementById('capText').innerHTML = linkify(p.caption);
