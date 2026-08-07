@@ -349,12 +349,13 @@ const POSTS = [
   { date:"2026-08-11", pillar:"reflection", title:"How I Became a Healer",
     platform:"Instagram + Facebook", format:"Carousel (8 slides)", notesFirst:true,
     todos:[
+      "Seven photos from Blaine's journey",
       "Design the carousel slides in sequence (see the flow in Notes)",
       "Keep the copy in Blaine's own words",
       "Brand it with the Tiger Soul gold logo"
     ],
     caption:"Caption should include:\n•  A short version of the story: from back pain and opiates to sacred medicine and healing others.\n•  An invitation to reach out or ask questions.",
-    notes:"!! **Five photos** from Blaine's journey, from when he was first starting the medicine work.\n\nA sequenced carousel telling the story of how Blaine became a healer, in his own words. Each slide moves the story forward.\n\n# The story, slide by slide\n• **Slide 1.** Open with something catching, like: before I was a healer, I was in an immense amount of pain.\n• **Slide 2.** The back pain, and how it led to opiate use.\n• **Slide 3.** The withdrawals, and understanding the pain of getting off them.\n• **Slide 4.** Turning to sacred medicine. Ibogaine.\n• **Slide 5.** Working with Shipibo masters for Ayahuasca.\n• **Slide 6.** Healing with combo.\n• **Slide 7.** Bufo facilitation, and helping others heal.\n• **Slide 8.** Where he is now: guiding others into becoming healers themselves.\n\n*The words should be Blaine's own. Pull the copy from how he actually tells it. This is his story, so his voice comes first.*",
+    notes:"!! **Seven photos** from Blaine's journey.\n\nA sequenced carousel telling the story of how Blaine became a healer, in his own words. Each slide moves the story forward.\n\n# The story, slide by slide\n• **Slide 1.** Open with something catching, like: before I was a healer, I was in an immense amount of pain.\n• **Slide 2.** The back pain, and how it led to opiate use.\n• **Slide 3.** The withdrawals, and understanding the pain of getting off them.\n• **Slide 4.** Turning to sacred medicine. Ibogaine.\n• **Slide 5.** Working with Shipibo masters for Ayahuasca.\n• **Slide 6.** Healing with combo.\n• **Slide 7.** Bufo facilitation, and helping others heal.\n• **Slide 8.** Where he is now: guiding others into becoming healers themselves.\n\n*The words should be Blaine's own. Pull the copy from how he actually tells it. This is his story, so his voice comes first.*",
     assets:[{todo:true, cap:"Carousel slides to design (Blaine's story, in his words)"}] },
 
   { date:"2026-08-12", pillar:"reflection", title:"What Got You Into Plant Medicine?",
@@ -680,6 +681,8 @@ function previewDropped(file){
 let LB_IMGS = [];
 function assetsBlock(p){
   const assets = p.assets || [];
+  const isVideo = /video|reel/i.test(p.format || '');
+  const uploadLabel = isVideo ? 'Upload your video here' : 'Upload photos here';
   LB_IMGS = assets.filter(a => !a.todo && a.src).map(a => ver(a.src));
   let v = -1;
   const cards = assets.map(a => {
@@ -699,7 +702,7 @@ function assetsBlock(p){
   }).join('');
   const addTile = `<a class="asset asset--add" href="${DRIVE_FOLDER}" target="_blank" rel="noopener" title="Open the Tiger Soul Google Drive folder">` +
       `<div class="ph"><span class="plus">&#8681;</span></div>` +
-      `<div class="cap">Upload your video here <span class="arw">&#8599;</span></div></a>`;
+      `<div class="cap">${uploadLabel} <span class="arw">&#8599;</span></div></a>`;
   return `<div class="sec-label">Assets</div><div class="assets" id="assetGrid">${cards}${addTile}</div>`;
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
