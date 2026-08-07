@@ -125,9 +125,11 @@
   .logo .cap{display:block;font-size:.66rem;letter-spacing:.04em;color:var(--gold-light);text-align:center;padding:.4rem .3rem;border-top:1px solid var(--line-gold)}
   @media(max-width:460px){.logo img{height:64px}}
   .links{display:flex;flex-direction:column;gap:.5rem}
-  .linkrow{display:flex;align-items:center;justify-content:space-between;gap:.8rem;font-size:.92rem;color:var(--forest-700);background:#fff;border:1px solid var(--line);border-radius:10px;padding:.75em .95em;text-decoration:none;transition:.25s var(--ease);word-break:break-word}
-  .linkrow:hover{border-color:var(--gold);color:var(--gold-deep);background:var(--cream-2)}
-  .linkrow .arw{color:var(--gold-deep);font-size:1.05rem;flex-shrink:0}
+  .linkrow{display:flex;align-items:center;justify-content:space-between;gap:.8rem;font-size:.95rem;font-weight:500;color:var(--gold-deep);background:#fff;border:1px solid var(--gold-deep);border-left:4px solid var(--gold-deep);border-radius:10px;padding:.8em 1em;text-decoration:none;transition:.25s var(--ease);word-break:break-word}
+  .linkrow__label{text-decoration:underline;text-underline-offset:3px}
+  .linkrow:hover{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep)}
+  .linkrow:hover .arw{color:#fff}
+  .linkrow .arw{color:var(--gold-deep);font-size:1.15rem;flex-shrink:0}
   .assets{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.7rem}
   .asset{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-decoration:none;display:block}
   a.asset{transition:border-color .25s var(--ease),transform .25s var(--ease)}
@@ -577,7 +579,7 @@ function openModal(p){
   const linksBlock = links.length
     ? `<div class="sec-label">Links &amp; info</div>` +
       `<div class="links">${links.map(l =>
-        `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener">${l.label} <span class="arw">&#8599;</span></a>`
+        `<a class="linkrow" href="${l.url}" target="_blank" rel="noopener"><span class="linkrow__label">${l.label}</span> <span class="arw">&#8599;</span></a>`
       ).join('')}</div>`
     : '';
   body.innerHTML =
