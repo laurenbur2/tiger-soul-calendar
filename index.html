@@ -41,6 +41,9 @@
   .dot--reflection{background:var(--forest-700)}
   .dot--teaching{background:var(--gold-deep)}
   .dot--invitation{background:var(--gold)}
+  .swatch{width:14px;height:14px;border-radius:4px}
+  .swatch--video{background:var(--forest-900);border:1px solid var(--forest-700)}
+  .swatch--photo{background:var(--gold);border:1px solid var(--gold-deep)}
   .legend .count{margin-left:auto}
 
   /* ---------- Calendar ---------- */
@@ -175,6 +178,19 @@
   .cell--post.cell--ph:hover{border-color:var(--gold)}
   .ph-banner{background:rgba(198,167,105,.12);border:1px solid var(--line-gold);border-left:3px solid var(--gold);border-radius:10px;padding:.85rem 1.05rem;font-size:.92rem;color:var(--ink-soft);margin-bottom:.4rem}
   .ph-banner strong{color:var(--gold-deep);font-weight:400}
+
+  /* ---------- Carousel / photo cells (gold); video cells stay forest green ---------- */
+  .cell--post.cell--photo{background:var(--gold);border-color:var(--gold-deep)}
+  .cell--post.cell--photo .num{color:var(--forest-950)}
+  .cell--post.cell--photo .ttl{color:var(--forest-950)}
+  .cell--post.cell--photo .plat{color:rgba(15,28,20,.72)}
+  .cell--post.cell--photo:hover{border-color:var(--forest-900)}
+  .cell--post.cell--photo .pill.invitation{background:var(--forest-900);color:var(--gold-light)}
+  /* Placeholder carousel/photo cells: paler gold, dashed */
+  .cell--post.cell--ph.cell--photo{background:var(--gold-light);border:1px dashed var(--gold-deep)}
+  .cell--post.cell--ph.cell--photo .num{color:var(--gold-deep)}
+  .cell--post.cell--ph.cell--photo .ttl{color:rgba(15,28,20,.6)}
+  .cell--post.cell--ph.cell--photo .plat{color:var(--gold-deep)}
 </style>
 </head>
 <body>
@@ -186,6 +202,8 @@
 </header>
 
 <div class="legend wrap">
+  <span class="item"><span class="swatch swatch--video"></span>Video day</span>
+  <span class="item"><span class="swatch swatch--photo"></span>Carousel / photo day</span>
   <span class="item"><span class="dot dot--reflection"></span>Reflection</span>
   <span class="item"><span class="dot dot--teaching"></span>Teaching</span>
   <span class="item"><span class="dot dot--invitation"></span>Invitation</span>
@@ -309,6 +327,17 @@ const POSTS = [
     notes:"Blaine answers a question to camera: is Bufo (5-MeO-DMT) the same as the DMT in vape pens? Put the question on screen as the hook.\n\nStructure:\n\nIntro. Open with the reaction. 5-MeO-DMT is not the same as the DMT you find in a vape pen.\n\nMiddle. How the two are actually different, and the space that is held around 5-MeO-DMT.\n\nFacts:\n•  N,N-DMT is what’s in a vape pen. Synthetic, non-organic. Often described as bringing up “entities.”\n•  5-MeO-DMT is a sacred, organic medicine with many alkaloids. Some say it was put here by God. It gives a “white out” sensation and is held ceremonially.\n\nClosing. An invitation, in his own words.\n\nThese notes are just for inspiration. If Blaine has his own opinions or his own way of explaining it, use those. His voice comes first.",
     assets:[{todo:true, cap:"Blaine to record and upload this video"}] },
 
+  { date:"2026-08-11", pillar:"reflection", title:"How I Became a Healer",
+    platform:"Instagram + Facebook", format:"Carousel", notesFirst:true,
+    todos:[
+      "Design the carousel slides in sequence (see the flow in Notes)",
+      "Keep the copy in Blaine's own words",
+      "Brand it with the Tiger Soul gold logo"
+    ],
+    caption:"Caption should include:\n•  A short version of the story: from back surgery and opiates to sacred medicine and healing others.\n•  An invitation to reach out or ask questions.",
+    notes:"A sequenced carousel telling the story of how Blaine became a healer, in his own words. Each slide moves the story forward.\n\nSuggested flow (Slide 1 → 5):\n1. The hook. How did I become a healer? How I entered this space.\n2. Back surgery, which led to opiate use.\n3. How hard it was to get off the opiates. The lowest part of the story.\n4. Turning to sacred medicine, and the healing that came from it.\n5. Where he is now: helping others heal. Close with an invitation.\n\nThe words should be Blaine's own. Pull the copy from how he actually tells it. This is his story, so his voice comes first.",
+    assets:[{todo:true, cap:"Carousel slides to design (Blaine's story, in his words)"}] },
+
   { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial: The Training",
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
@@ -417,7 +446,8 @@ MONTHS.forEach(({y,m}) => {
     const cell = document.createElement('div');
     if (post){
       const wd = WD_SHORT[new Date(y, m-1, d).getDay()];
-      cell.className = 'cell cell--post' + (post.placeholder ? ' cell--ph' : '');
+      const isVideo = /video|reel/i.test(post.format || '');
+      cell.className = 'cell cell--post' + (post.placeholder ? ' cell--ph' : '') + (isVideo ? '' : ' cell--photo');
       cell.innerHTML =
         `<span class="num">${d}</span>` +
         `<span class="pill ${post.pillar}">${wd}</span>` +
