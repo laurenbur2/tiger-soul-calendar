@@ -93,9 +93,25 @@
   .tags{display:flex;flex-wrap:wrap;gap:.4rem}
   .htag{font-size:.78rem;color:var(--gold-deep);background:var(--cream-3);padding:.3em .7em;border-radius:8px}
   .sec-note{margin-left:.5rem;font-size:.6rem;letter-spacing:.1em;color:var(--ink-soft);text-transform:none}
-  .notes{white-space:pre-wrap;font-size:.96rem;color:var(--ink);background:var(--cream-2);border:1px solid var(--line-gold);border-left:3px solid var(--gold-deep);border-radius:10px;padding:.95rem 1.1rem;line-height:1.55}
+  .notes{white-space:normal;font-size:.96rem;color:var(--ink);background:var(--cream-2);border:1px solid var(--line-gold);border-left:3px solid var(--gold-deep);border-radius:10px;padding:.95rem 1.1rem;line-height:1.55}
   .notes a{color:var(--gold-deep);text-decoration:underline;word-break:break-all}
   .notes a:hover{color:var(--forest-700)}
+  /* Rich notes: colour-coded, scannable blocks (dyslexia / ADHD friendly) */
+  .note-p{margin:.55rem 0;line-height:1.6}
+  .note-p:first-child{margin-top:0}
+  .notes strong{color:var(--forest-900);font-weight:600}
+  .notes em{color:var(--ink-soft);font-style:italic}
+  .note-h{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin:1.15rem 0 .55rem;padding-bottom:.32rem;border-bottom:1px solid var(--line-gold)}
+  .note-q{font-family:var(--font-display);font-size:1.18rem;line-height:1.24;color:var(--forest-950);background:var(--gold-light);border:1px solid var(--gold-deep);border-radius:10px;padding:.75rem .95rem;margin:.35rem 0 .95rem}
+  .note-ul,.note-ol{margin:.55rem 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:.5rem}
+  .note-ul li{position:relative;padding-left:1.35rem}
+  .note-ul li::before{content:"\203A";position:absolute;left:.25rem;top:-.05rem;color:var(--gold-deep);font-weight:700}
+  .note-ol{counter-reset:ni}
+  .note-ol li{position:relative;padding-left:2.1rem;counter-increment:ni;min-height:1.5rem;line-height:1.5}
+  .note-ol li::before{content:counter(ni);position:absolute;left:0;top:0;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:600;color:var(--forest-950);background:var(--gold);border-radius:50%}
+  .note-box{background:#fff;border:1px solid var(--gold-deep);border-left:4px solid var(--gold-deep);border-radius:10px;padding:.85rem 1rem;margin:.75rem 0}
+  .note-box__title{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-bottom:.55rem}
+  .note-box .note-ul{margin:0}
   .todo{list-style:none;background:rgba(198,167,105,.12);border:1px solid var(--line-gold);border-radius:10px;padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.55rem}
   .todo li{position:relative;padding-left:1.4rem;color:var(--gold-deep);font-size:.98rem;line-height:1.4}
   .todo li::before{content:"→";position:absolute;left:0;top:0;color:var(--gold-deep)}
@@ -324,7 +340,7 @@ const POSTS = [
       "Brand it with a transparent gold logo"
     ],
     caption:"Caption should include:\n•  The short version of the myth-buster: 5-MeO-DMT (Bufo) is not the same as the DMT in a vape pen.\n•  An invitation to ask questions or DM to learn more.",
-    notes:"Blaine answers a question to camera: is Bufo (5-MeO-DMT) the same as the DMT in vape pens? Put the question on screen as the hook.\n\nStructure:\n\nIntro. Open with the reaction. 5-MeO-DMT is not the same as the DMT you find in a vape pen.\n\nMiddle. How the two are actually different, and the space that is held around 5-MeO-DMT.\n\nFacts:\n•  N,N-DMT is what’s in a vape pen. Synthetic, non-organic. Often described as bringing up “entities.”\n•  5-MeO-DMT is a sacred, organic medicine with many alkaloids. Some say it was put here by God. It gives a “white out” sensation and is held ceremonially.\n\nClosing. An invitation, in his own words.\n\nThese notes are just for inspiration. If Blaine has his own opinions or his own way of explaining it, use those. His voice comes first.",
+    notes:"Blaine answers a question to camera. Put the question on screen as the hook:\n\n>> Is Bufo (5-MeO-DMT) the same as the DMT in vape pens?\n\n# Structure\n\n**Intro.** Open with the reaction. 5-MeO-DMT is not the same as the DMT you find in a vape pen.\n\n**Middle.** How the two are actually different, and the space that is held around 5-MeO-DMT.\n\n:::box Facts\n• **N,N-DMT** is what’s in a vape pen. Synthetic, non-organic. Often described as bringing up “entities.”\n• **5-MeO-DMT** is a sacred, organic medicine with many alkaloids. Some say it was put here by God. It gives a “white out” sensation and is held ceremonially.\n:::\n\n**Closing.** Turn it to the audience. Ask a question like: does anybody else feel this way? Let me know your thoughts in the comments.\n\n*These notes are just for inspiration. If Blaine has his own opinions or his own way of explaining it, use those. His voice comes first.*",
     assets:[{todo:true, cap:"Blaine to record and upload this video"}] },
 
   { date:"2026-08-11", pillar:"reflection", title:"How I Became a Healer",
@@ -335,7 +351,7 @@ const POSTS = [
       "Brand it with the Tiger Soul gold logo"
     ],
     caption:"Caption should include:\n•  A short version of the story: from back surgery and opiates to sacred medicine and healing others.\n•  An invitation to reach out or ask questions.",
-    notes:"A sequenced carousel telling the story of how Blaine became a healer, in his own words. Each slide moves the story forward.\n\nSuggested flow (Slide 1 → 5):\n1. The hook. How did I become a healer? How I entered this space.\n2. Back surgery, which led to opiate use.\n3. How hard it was to get off the opiates. The lowest part of the story.\n4. Turning to sacred medicine, and the healing that came from it.\n5. Where he is now: helping others heal. Close with an invitation.\n\nThe words should be Blaine's own. Pull the copy from how he actually tells it. This is his story, so his voice comes first.",
+    notes:"A sequenced carousel telling the story of how Blaine became a healer, in his own words. Each slide moves the story forward.\n\n# Suggested flow (Slide 1 → 5)\n1. **The hook.** How did I become a healer? How I entered this space.\n2. **Back surgery,** which led to opiate use.\n3. **The withdrawals.** How hard it was to get off the opiates. The lowest part of the story.\n4. **Sacred medicine.** Turning to it, and the healing that came from it.\n5. **Where he is now.** Helping others heal. End by turning it to the audience: does anyone else relate? Share your story in the comments.\n\n*The words should be Blaine's own. Pull the copy from how he actually tells it. This is his story, so his voice comes first.*",
     assets:[{todo:true, cap:"Carousel slides to design (Blaine's story, in his words)"}] },
 
   { date:"2026-08-12", pillar:"reflection", title:"What Got You Into Plant Medicine?",
@@ -347,7 +363,7 @@ const POSTS = [
       "Brand it with a transparent gold logo"
     ],
     caption:"Caption should include:\n•  A short version of the journey: from a back injury and opiates to sacred medicine and healing others.\n•  An invitation to reach out or ask questions.",
-    notes:"Blaine tells the story of his journey to camera. Put the question on screen as the hook: what got you into sacred plant medicines?\n\nThis is the video version of Tuesday's carousel, the same journey, told in his own words.\n\nStructure the story so each part leads into the next:\n1. The hook. What got me into sacred plant medicines.\n2. Where it started. A back injury, which led to opiate use.\n3. The pain of the withdrawals. The hardest stretch of the story.\n4. Finding sacred medicine, and learning how to heal himself.\n5. From healing himself to healing others. Close with an invitation.\n\nThe words should be Blaine's own. This is his story, so his voice comes first.",
+    notes:"Blaine tells the story of his journey to camera. Put the question on screen as the hook:\n\n>> What got you into sacred plant medicines?\n\nThis is the video version of Tuesday's carousel, the same journey, told in his own words.\n\n# Sequence (each part leads into the next)\n1. **The hook.** What got me into sacred plant medicines.\n2. **Where it started.** A back injury, which led to opiate use.\n3. **The withdrawals.** The pain of getting off the opiates. The hardest stretch.\n4. **Sacred medicine.** Finding it, and learning how to heal himself.\n5. **Healing others.** From healing himself to healing others. End by turning it to the audience: does anyone else feel this way? Let me know your thoughts.\n\n*The words should be Blaine's own. This is his story, so his voice comes first.*",
     assets:[{todo:true, cap:"Blaine to record and upload this video"}] },
 
   { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial: The Training",
@@ -552,7 +568,7 @@ function openModal(p){
     assetsBlock(p) +
     logoHTML;
   document.getElementById('capText').innerHTML = linkify(p.caption);
-  if (p.notes) document.getElementById('noteText').innerHTML = linkify(p.notes);
+  if (p.notes) document.getElementById('noteText').innerHTML = renderNotes(p.notes);
 
   // Click a photo to view it in the lightbox (download button stays separate)
   body.querySelectorAll('.asset__media[data-view]').forEach(el => {
@@ -686,6 +702,55 @@ function assetsBlock(p){
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 // Escape, then turn any full URL into a clickable link (shows the whole link)
 function linkify(s){ return esc(s).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); }
+// Inline note formatting: **bold**, *italic*, and clickable URLs (input escaped first)
+function noteInline(s){
+  return esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+/* Rich notes renderer — turns a light markup into colour-coded, scannable blocks:
+   "# Heading"  section label · ">> question" standout hook · ":::box Title … :::" panel
+   "1. " numbered steps · "• " / "- " bullets · **bold** · *italic* · blank line = paragraph. */
+function renderNotes(raw){
+  const lines = String(raw).split('\n');
+  let html = '', i = 0, listBuf = [], listType = null, paraBuf = [];
+  const flushList = () => {
+    if(!listBuf.length) return;
+    const tag = listType === 'ol' ? 'ol' : 'ul', cls = listType === 'ol' ? 'note-ol' : 'note-ul';
+    html += `<${tag} class="${cls}">` + listBuf.map(t => `<li>${noteInline(t)}</li>`).join('') + `</${tag}>`;
+    listBuf = []; listType = null;
+  };
+  const flushPara = () => {
+    if(!paraBuf.length) return;
+    html += `<p class="note-p">${paraBuf.map(noteInline).join('<br>')}</p>`;
+    paraBuf = [];
+  };
+  const flushAll = () => { flushList(); flushPara(); };
+  while(i < lines.length){
+    const t = lines[i].trim();
+    const box = t.match(/^:::box\s*(.*)$/);
+    if(box){
+      flushAll();
+      const inner = []; i++;
+      while(i < lines.length && lines[i].trim() !== ':::'){ inner.push(lines[i]); i++; }
+      i++; // skip closing :::
+      html += `<div class="note-box">` +
+        (box[1].trim() ? `<div class="note-box__title">${noteInline(box[1].trim())}</div>` : '') +
+        renderNotes(inner.join('\n')) + `</div>`;
+      continue;
+    }
+    if(t === ''){ flushAll(); i++; continue; }
+    let m;
+    if(m = t.match(/^#\s+(.*)$/)){ flushAll(); html += `<div class="note-h">${noteInline(m[1])}</div>`; i++; continue; }
+    if(m = t.match(/^>>\s+(.*)$/)){ flushAll(); html += `<div class="note-q">${noteInline(m[1])}</div>`; i++; continue; }
+    if(m = t.match(/^(\d+)\.\s+(.*)$/)){ flushPara(); if(listType && listType!=='ol') flushList(); listType='ol'; listBuf.push(m[2]); i++; continue; }
+    if(m = t.match(/^[•\-]\s+(.*)$/)){ flushPara(); if(listType && listType!=='ul') flushList(); listType='ul'; listBuf.push(m[1]); i++; continue; }
+    flushList(); paraBuf.push(t); i++;
+  }
+  flushAll();
+  return html;
+}
 function closeModal(){ overlay.classList.remove('open'); document.body.style.overflow=''; }
 
 /* ---------- Lightbox ---------- */
