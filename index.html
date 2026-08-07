@@ -437,6 +437,8 @@ const PILLAR_LABEL = {reflection:"Reflection", teaching:"Teaching", invitation:"
 const SUPA_URL = "https://werkohszkcytdvljafha.supabase.co";
 const SUPA_KEY = "sb_publishable_YkTpPIzaCE-paCYapejC9w_G3iTt6g5";
 const BUCKET = "calendar-uploads";
+// Blaine records and uploads his own videos here — the "Upload your video here" tile links to this folder.
+const DRIVE_FOLDER = "https://drive.google.com/drive/folders/1nYiC7nUxZGGiibc0caOrqCRSnhNaOXhW?usp=drive_link";
 const supa = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
 let CURRENT_DATE = null;
 
@@ -622,10 +624,9 @@ function assetsBlock(p){
       `<a class="dlbtn" href="${ver(a.src)}" download title="Download photo" aria-label="Download photo">&#8595;</a></div>` +
       `<div class="cap">${a.cap}</div></div>`;
   }).join('');
-  const addTile = `<div class="asset asset--add" id="dropTile" tabindex="0" title="Drop a photo or video here, or click to choose">` +
+  const addTile = `<a class="asset asset--add" href="${DRIVE_FOLDER}" target="_blank" rel="noopener" title="Open the Tiger Soul Google Drive folder">` +
       `<div class="ph"><span class="plus">&#8681;</span></div>` +
-      `<div class="cap">Drop asset here</div>` +
-      `<input type="file" id="dropInput" accept="image/*,video/*" hidden></div>`;
+      `<div class="cap">Upload your video here <span class="arw">&#8599;</span></div></a>`;
   return `<div class="sec-label">Assets</div><div class="assets" id="assetGrid">${cards}${addTile}</div>`;
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
