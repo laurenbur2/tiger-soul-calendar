@@ -564,6 +564,24 @@ const POSTS = [
     notes:"Lauren is building this carousel. Review to highlight:\n\n>> “I attended Maestro Blaine's medicine training, and I must say that beyond gaining new skills, it was transformative for me on a personal level. Maestro is exceptionally knowledgeable, skilled and attentive. The insights he provided were practical and ethical, which was important for me as a facilitator. The immersive nature of the training allowed me to deeply connect with the medicines, and I felt safe during the entire experience. Therefore, if you are considering training in indigenous medicines, I highly recommend Maestro Blaine at Tiger Soul Medicine Retreats…you will not regret it!”\n\n# The reviewer\n• **Mary Rayven Owens** — Google reviewer (2 reviews)\n• ★★★★★ · posted 2 weeks ago",
     assets:[{todo:true, cap:"Review carousel slides (Lauren to design)"}] },
 
+  { date:"2026-09-18", pillar:"teaching", title:"Downloads vs Integration",
+    platform:"Instagram + Facebook", format:"Carousel (7 slides)",
+    todos:[
+      "Blaine: review the copy on all 7 slides",
+      "Post the slides in order (Slide 1 \u2192 7)"
+    ],
+    caption:"Integration can take months. A download takes seconds.\n\nMost of what the medicine shows you has to be worked. You take what you were shown and you live it out through your choices, your relationships, and the way you spend your days. That part is slow, and it is essential.\n\nThen there are downloads. A transmission. An insight. An undeniable aha moment. Nothing to memorize. You simply know it, in your cells, your soul, your entire being. An old belief dissolves. A deeper part of you wakes up.\n\nAnd once something has truly been seen, it cannot be unseen.\n\nWhat has the medicine shown you that you will never unsee?",
+    notes:"Built from Blaine's writing on downloads.\n\nThe structure, so the point lands instead of floating:\n\u2022  Slide 1 states both ideas and sets up the swipe.\n\u2022  Slides 2-3 are the slow kind: what integration actually asks of you day to day.\n\u2022  Slide 4 is the turn. Downloads.\n\u2022  Slides 5-6 are what a download feels like and what it does.\n\u2022  Slide 7 closes and asks the question.\n\nMost of the wording is Blaine's own, trimmed and put in order.",
+    assets:[
+      {src:"assets/carousel-downloads/01.jpg", thumb:"assets/carousel-downloads/thumb/01.jpg", cap:"Slide 1: Integration can take months. A download takes seconds."},
+      {src:"assets/carousel-downloads/02.jpg", thumb:"assets/carousel-downloads/thumb/02.jpg", cap:"Slide 2: Integration is the slow part"},
+      {src:"assets/carousel-downloads/03.jpg", thumb:"assets/carousel-downloads/thumb/03.jpg", cap:"Slide 3: In real life, that is work"},
+      {src:"assets/carousel-downloads/04.jpg", thumb:"assets/carousel-downloads/thumb/04.jpg", cap:"Slide 4: Then there is a download"},
+      {src:"assets/carousel-downloads/05.jpg", thumb:"assets/carousel-downloads/thumb/05.jpg", cap:"Slide 5: There is nothing to memorize"},
+      {src:"assets/carousel-downloads/06.jpg", thumb:"assets/carousel-downloads/thumb/06.jpg", cap:"Slide 6: An old belief dissolves"},
+      {src:"assets/carousel-downloads/07.jpg", thumb:"assets/carousel-downloads/thumb/07.jpg", cap:"Slide 7: Sometimes grace arrives in an instant"}
+    ] },
+
   { date:"2026-09-24", pillar:"reflection", title:"Raven's Testimonial: The Training", noStyleRef:true,
     platform:"Instagram + Facebook", format:"Video (Reel)",
     todos:[
@@ -694,6 +712,14 @@ MONTHS.forEach(({y,m}) => {
   monthEl.appendChild(grid);
   calendar.appendChild(monthEl);
 });
+
+// Deep link: a URL ending in #2026-09-18 opens that day's post
+function openFromHash(){
+  const d = location.hash.replace('#','').trim();
+  if (byDate[d]) openModal(byDate[d]);
+}
+window.addEventListener('hashchange', openFromHash);
+window.addEventListener('load', openFromHash);
 
 // Keep the header count in sync with the POSTS list
 const n = POSTS.length;
