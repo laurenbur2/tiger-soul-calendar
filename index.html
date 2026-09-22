@@ -218,7 +218,7 @@
 
 <header class="masthead">
   <p class="eyebrow">Tiger Soul · Social Content Calendar</p>
-  <h1>Aug 2026 <span class="yr">- Mar 2027</span></h1>
+  <h1>Sep 2026 <span class="yr">- Mar 2027</span></h1>
   <p>Five posts a week, Monday through Friday. Tap any highlighted day to see the full brief for that post.</p>
 </header>
 
@@ -673,6 +673,7 @@ const shiftISO = (iso, days) => {
 const byDate = {};
 POSTS.forEach(p => { byDate[p.date] = p; });
 let PLACEHOLDER_COUNT = 0;
+const SHOWN_FROM = `${MONTHS[0].y}-${pad2(MONTHS[0].m)}-01`;  // count only months on screen
 // Days that should stay completely blank (no auto-placeholder).
 const PLACEHOLDER_SKIP = new Set(["2026-08-10","2026-08-11"]);
 for (let w = 0; w < PLACEHOLDER_WEEKS; w++){
@@ -689,7 +690,7 @@ for (let w = 0; w < PLACEHOLDER_WEEKS; w++){
       placeholder: true, notes: slot.notes, noStyleRef: slot.noStyleRef,
       caption: "Placeholder — write the caption here when the post is ready."
     };
-    PLACEHOLDER_COUNT++;
+    if (date >= SHOWN_FROM) PLACEHOLDER_COUNT++;
   });
 }
 const calendar = document.getElementById('calendar');
@@ -743,7 +744,7 @@ window.addEventListener('hashchange', openFromHash);
 window.addEventListener('load', openFromHash);
 
 // Keep the header count in sync with the POSTS list
-const n = POSTS.length;
+const n = POSTS.filter(p => p.date >= SHOWN_FROM).length;
 document.getElementById('postCount').textContent =
   `${n} briefed · ${PLACEHOLDER_COUNT} placeholder${PLACEHOLDER_COUNT===1?'':'s'}`;
 
